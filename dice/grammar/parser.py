@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dice.constants import SYNTAX_VERSION
+from dice.constants import MAX_EXPRESSION_LENGTH, SYNTAX_VERSION
 from dice.errors import DiceParseError
 from dice.grammar.parse_result import ParseResult
 from dice.terms import RollExpression
@@ -26,6 +26,21 @@ def parse(expression: str) -> ParseResult:
         )
 
     text = expression.strip()
+
+    if len(text) > MAX_EXPRESSION_LENGTH:
+        error = DiceParseError(
+            code="EXPRESSION_TOO_LONG",
+            message=f"Expression length ({len(text)}) exceeds maximum ({MAX_EXPRESSION_LENGTH})",
+            expression=expression,
+        )
+        dummy = RollExpression(expression=expression, children=[], label=None)
+        return ParseResult(
+            ast=dummy,
+            expression=expression,
+            syntax_version=SYNTAX_VERSION,
+            errors=[error],
+        )
+
     try:
         terms, flavor = parse_notation(text)
     except Exception as exc:

@@ -12,7 +12,7 @@ def keep_highest(
     n = spec.argument if spec.argument is not None else 1
     active = [(i, r) for i, r in enumerate(results) if not r.rerolled]
     ranked = sorted(active, key=lambda pair: pair[1].value)
-    keep_indices = {i for i, _ in ranked[-n:]}
+    keep_indices = {i for i, _ in ranked[-n:]} if n > 0 else set()
     for i, r in active:
         r.kept = i in keep_indices
     return results
@@ -25,7 +25,7 @@ def keep_lowest(
     n = spec.argument if spec.argument is not None else 1
     active = [(i, r) for i, r in enumerate(results) if not r.rerolled]
     ranked = sorted(active, key=lambda pair: pair[1].value)
-    keep_indices = {i for i, _ in ranked[:n]}
+    keep_indices = {i for i, _ in ranked[:n]} if n > 0 else set()
     for i, r in active:
         r.kept = i in keep_indices
     return results

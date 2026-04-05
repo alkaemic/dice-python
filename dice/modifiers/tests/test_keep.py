@@ -58,6 +58,24 @@ def test_keep_lowest_default_1():
     assert kept[0].value == 1
 
 
+def test_keep_highest_zero_keeps_nothing():
+    results = _results(3, 5, 1, 6)
+    keep_highest(results, ModifierSpec(key="kh", argument=0), _rng(), 6)
+    assert all(not r.kept for r in results)
+
+
+def test_keep_lowest_zero_keeps_nothing():
+    results = _results(3, 5, 1, 6)
+    keep_lowest(results, ModifierSpec(key="kl", argument=0), _rng(), 6)
+    assert all(not r.kept for r in results)
+
+
+def test_keep_highest_more_than_available():
+    results = _results(3, 5)
+    keep_highest(results, ModifierSpec(key="kh", argument=10), _rng(), 6)
+    assert all(r.kept for r in results)
+
+
 def test_keep_skips_rerolled_dice():
     results = _results(3, 5, 1, 6)
     results[1].rerolled = True

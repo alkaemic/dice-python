@@ -50,6 +50,24 @@ def test_drop_lowest_multiple():
     assert {r.value for r in kept} == {3, 5, 6}
 
 
+def test_drop_highest_zero_drops_nothing():
+    results = _results(3, 5, 1, 6)
+    drop_highest(results, ModifierSpec(key="dh", argument=0), _rng(), 6)
+    assert all(r.kept for r in results)
+
+
+def test_drop_lowest_zero_drops_nothing():
+    results = _results(3, 5, 1, 6)
+    drop_lowest(results, ModifierSpec(key="dl", argument=0), _rng(), 6)
+    assert all(r.kept for r in results)
+
+
+def test_drop_all_dice():
+    results = _results(3, 5)
+    drop_highest(results, ModifierSpec(key="dh", argument=2), _rng(), 6)
+    assert all(not r.kept for r in results)
+
+
 def test_drop_skips_rerolled_dice():
     results = _results(3, 5, 1, 6)
     results[2].rerolled = True

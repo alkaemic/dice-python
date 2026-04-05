@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dice.errors import DiceExecutionError
 from dice.terms.base import RollTerm
 from dice.terms.operator_term import OperatorTerm
 
@@ -25,6 +26,11 @@ def compute_infix_total(children: list[RollTerm]) -> int | float:
         elif op.operator == "*":
             result = result * right.total
         elif op.operator == "/":
+            if right.total == 0:
+                raise DiceExecutionError(
+                    code="DIVISION_BY_ZERO",
+                    message="Division by zero in dice expression",
+                )
             result = result // right.total
         i += 2
     return result

@@ -35,6 +35,8 @@ class GroupTerm(RollTerm):
         )
 
     def evaluate(self, rng: RNG) -> GroupTerm:
+        if self._evaluated:
+            return self
         self._child_totals = []
         for child_expr in self.children:
             for term in child_expr:

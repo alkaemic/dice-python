@@ -20,6 +20,8 @@ class NumericTerm(RollTerm):
         return self.value
 
     def evaluate(self, rng: RNG) -> NumericTerm:
+        if self._evaluated:
+            return self
         self._evaluated = True
         return self
 

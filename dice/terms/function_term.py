@@ -42,6 +42,8 @@ class FunctionTerm(RollTerm):
         return self._total
 
     def evaluate(self, rng: RNG) -> FunctionTerm:
+        if self._evaluated:
+            return self
         for child in self.children:
             child.evaluate(rng)
         child_total = compute_infix_total(self.children)

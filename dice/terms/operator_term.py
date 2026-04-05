@@ -24,6 +24,8 @@ class OperatorTerm(RollTerm):
         raise TypeError("OperatorTerm has no total")
 
     def evaluate(self, rng: RNG) -> OperatorTerm:
+        if self._evaluated:
+            return self
         self._evaluated = True
         return self
 

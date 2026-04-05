@@ -31,6 +31,8 @@ class RollExpression(RollTerm):
         return self._total
 
     def evaluate(self, rng: RNG) -> RollExpression:
+        if self._evaluated:
+            return self
         for child in self.children:
             child.evaluate(rng)
         self._total = compute_infix_total(self.children)

@@ -36,6 +36,8 @@ class DiceTerm(RollTerm):
         return sum(r.value for r in self.results if r.kept)
 
     def evaluate(self, rng: RNG) -> DiceTerm:
+        if self._evaluated:
+            return self
         self.results = [
             DieResult(value=roll_die(self.faces, rng))
             for _ in range(self.count)

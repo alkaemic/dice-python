@@ -26,6 +26,8 @@ class FateDiceTerm(DiceTerm):
         return base + "".join(self.modifier_strings)
 
     def evaluate(self, rng: RNG) -> FateDiceTerm:
+        if self._evaluated:
+            return self
         self.results = [
             DieResult(value=roll_die(3, rng) - 2)
             for _ in range(self.count)

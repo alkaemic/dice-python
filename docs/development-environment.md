@@ -1,38 +1,46 @@
-Development Environments
-========================
+# Development Environment
 
-Setting up a development environment for the library is easy! We leverage a
-few different tools on the host (e.g. Windows, Mac, or Linux), but aside from
-those most of the requirements are sandboxed in a VM, so there is very little
-work you need to do to get up and running.
+## Prerequisites
 
-#### Pre-requisites
- 1. Install [Git](https://git-scm.com/)
- 2. Install [VirtualBox](https://www.virtualbox.org/)
- 3. Install [Vagrant](https://www.vagrantup.com/)
+- Python 3.11+
+- [uv](https://docs.astral.sh/uv/) (package manager)
+- [Task](https://taskfile.dev/) (optional, for task runner commands)
 
-#### Setup Steps
-In order to actually setup the development environment follow the steps below.
+## Setup
 
-1. Clone the `dice-python` repository into your workspace, e.g.
-   `~/workspace/dice-python`
-2. Navigate to `dice-python` within your workspace, e.g.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/alkaemic/dice-python.git
+   cd dice-python
    ```
-   $ cd ~/workspace/dice-python
-   ```
-3. Open terminal to your workspace and start Vagrant, e.g.
-   ```
-   $ vagrant up
-   ```
-4. Once Vagrant has successfully completed its provisioning, enter the virtual
-   machine using SSH _[1]_
 
----
+2. Install dependencies:
+   ```bash
+   uv sync
+   ```
 
-## Notes
+   This creates a virtual environment in `.venv/` and installs all production and dev dependencies.
 
-* **[1]** To use SSH on Windows you may use
-  [PuTTY](http://www.chiark.greenend.org.uk/~sgtatham/putty/); on Mac and
-  Linux environments you may enter the Vagrant-managed virtual machine by
-  issuing the command `vagrant ssh` from a terminal prompt within the
-  `~/workspace/dice-python` directory.
+3. Verify the setup:
+   ```bash
+   uv run pytest -x
+   ```
+
+## Tools
+
+| Tool | Purpose | Command |
+|---|---|---|
+| [pytest](https://docs.pytest.org/) | Test runner | `uv run pytest` |
+| [ruff](https://docs.astral.sh/ruff/) | Linter | `uv run ruff check dice/` |
+| [black](https://black.readthedocs.io/) | Code formatter | `uv run black dice/` |
+| [mypy](https://mypy.readthedocs.io/) | Type checker | `uv run mypy dice/` |
+
+## Task Runner
+
+If you have [Task](https://taskfile.dev/) installed, you can use the shorthand commands:
+
+```bash
+task build           # Build the package
+task test            # Run tests (stop on first failure)
+task test:coverage   # Run tests with coverage report
+```

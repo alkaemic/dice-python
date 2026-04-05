@@ -1,7 +1,7 @@
 [project]
 name = "dice"
-version = "1.0.0-dev"
-description = "The dice library is a robust dice rolling library."
+version = "1.0.0a1"
+description = "A Python dice rolling library with Roll20-compatible notation, typed execution trees, and pluggable evaluation."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
@@ -13,16 +13,17 @@ maintainers = [
     { name = "Zack Root" },
 ]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Topic :: Games/Entertainment",
     "Topic :: Games/Entertainment :: Board Games",
     "Topic :: Games/Entertainment :: Role-Playing",
     "Topic :: Games/Entertainment :: Turn Based Strategy",
     "Topic :: Text Processing",
+    "Typing :: Typed",
 ]
 dependencies = [
-    "pyparsing>=3.1.0",
+    "pyparsing>=3.2.0",
 ]
 
 [project.urls]
@@ -31,12 +32,12 @@ Repository = "https://github.com/alkaemic/dice-python"
 
 [dependency-groups]
 dev = [
-    "pytest>=8.0",
-    "pytest-cov>=5.0",
-    "pytest-mock>=3.12",
-    "black>=24.0",
-    "ruff>=0.4.0",
-    "mypy>=1.10",
+    "pytest>=9.0",
+    "pytest-cov>=7.0",
+    "pytest-mock>=3.14",
+    "black>=26.0",
+    "ruff>=0.11.0",
+    "mypy>=1.15",
 ]
 
 [tool.ruff]

@@ -2,10 +2,8 @@
 
 import logging
 
-logging.basicConfig(
-    format="%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
-)
 logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 from dice.api import roll  # noqa: E402
 from dice.constants import SYNTAX_VERSION  # noqa: E402

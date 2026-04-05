@@ -16,7 +16,7 @@ from pyparsing import (
     Regex,
     Suppress,
     Word,
-    infixNotation,
+    infix_notation,
     nums,
     opAssoc,
 )
@@ -35,18 +35,18 @@ from dice.grammar.parse_actions import (
 # Primitives
 # ---------------------------------------------------------------------------
 
-_integer = Word(nums).setParseAction(make_integer).setName("integer")
+_integer = Word(nums).set_parse_action(make_integer).set_name("integer")
 
-_float_num = Regex(r"\d+\.\d+").setParseAction(make_float).setName("float")
+_float_num = Regex(r"\d+\.\d+").set_parse_action(make_float).set_name("float")
 
-_number = (_float_num | _integer).setName("number")
+_number = (_float_num | _integer).set_name("number")
 
 # ---------------------------------------------------------------------------
 # Compare points  (used inside modifiers, not standalone)
 # ---------------------------------------------------------------------------
 
 _compare_op = Regex(r">=|<=|>|<|=")
-_compare_point = Combine(_compare_op + Word(nums)).setName("compare_point")
+_compare_point = Combine(_compare_op + Word(nums)).set_name("compare_point")
 
 # ---------------------------------------------------------------------------
 # Modifier suffixes — captured as raw strings, parsed by modifiers.parser
@@ -72,19 +72,19 @@ _reroll_mod = Combine(
     + Optional(_compare_point)
 )
 
-_modifier = (_keep_mod | _drop_mod | _explode_mod | _reroll_mod).setName("modifier")
+_modifier = (_keep_mod | _drop_mod | _explode_mod | _reroll_mod).set_name("modifier")
 
 # ---------------------------------------------------------------------------
 # Dice expression:  [count] 'd' sides [modifiers...]
 # ---------------------------------------------------------------------------
 
-_dice_count = Word(nums).setResultsName("count").setName("dice_count")
+_dice_count = Word(nums).set_results_name("count").set_name("dice_count")
 _dice_sides = (
     CaselessLiteral("F")
     | CaselessLiteral("fate")
     | Literal("%")
     | Word(nums)
-).setResultsName("sides").setName("dice_sides")
+).set_results_name("sides").set_name("dice_sides")
 
 _dice_expr = Group(
     Optional(_dice_count)
@@ -99,14 +99,14 @@ _dice_expr = Group(
             )
         )
     )
-    .setResultsName("modifiers")
-).setParseAction(make_dice_term).setName("dice_expr")
+    .set_results_name("modifiers")
+).set_parse_action(make_dice_term).set_name("dice_expr")
 
 # ---------------------------------------------------------------------------
 # Forward-declare expression for recursive grammar
 # ---------------------------------------------------------------------------
 
-_expression = Forward().setName("expression")
+_expression = Forward().set_name("expression")
 
 # ---------------------------------------------------------------------------
 # Parenthetical:  '(' expression ')'
@@ -116,7 +116,7 @@ _lparen = Suppress(Literal("("))
 _rparen = Suppress(Literal(")"))
 _parenthetical = Group(
     _lparen + _expression + _rparen
-).setParseAction(make_parenthetical).setName("parenthetical")
+).set_parse_action(make_parenthetical).set_name("parenthetical")
 
 # ---------------------------------------------------------------------------
 # Function call:  floor(...) | ceil(...) | round(...) | abs(...)
@@ -131,13 +131,13 @@ _func_name = (
 
 _function_call = Group(
     _func_name + _lparen + _expression + _rparen
-).setParseAction(make_function).setName("function_call")
+).set_parse_action(make_function).set_name("function_call")
 
 # ---------------------------------------------------------------------------
 # Factor (atom):  dice | function | parenthetical | number
 # ---------------------------------------------------------------------------
 
-_factor = (_dice_expr | _function_call | _parenthetical | _number).setName("factor")
+_factor = (_dice_expr | _function_call | _parenthetical | _number).set_name("factor")
 
 # ---------------------------------------------------------------------------
 # Flavor text:  [some text]
@@ -147,7 +147,7 @@ _flavor = (
     Suppress(Literal("["))
     + Regex(r"[^\]]*")
     + Suppress(Literal("]"))
-).setResultsName("flavor").setName("flavor_text")
+).set_results_name("flavor").set_name("flavor_text")
 
 # ---------------------------------------------------------------------------
 # Full expression with operator precedence via infixNotation
@@ -156,7 +156,7 @@ _flavor = (
 _mul_op = Literal("*") | Literal("/")
 _add_op = Literal("+") | Literal("-")
 
-_full_expression = infixNotation(
+_full_expression = infix_notation(
     _factor,
     [
         (_mul_op, 2, opAssoc.LEFT, make_mul_div),
@@ -180,7 +180,7 @@ def parse_notation(text: str) -> tuple[list, str | None]:
     RollExpression.  Flavor text (e.g. ``[attack]``) is returned
     separately.
     """
-    result = _top_level.parseString(text, parseAll=True)
+    result = _top_level.parse_string(text, parse_all=True)
 
     flavor: str | None = None
     if "flavor" in result:

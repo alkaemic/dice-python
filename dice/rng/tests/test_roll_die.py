@@ -1,3 +1,6 @@
+import pytest
+
+from dice.errors import DiceValidationError
 from dice.rng import SeededRNG, roll_die
 
 
@@ -25,3 +28,13 @@ def test_roll_die_single_sided():
     rng = SeededRNG(0)
     result = roll_die(1, rng=rng)
     assert result == 1
+
+
+def test_roll_die_zero_sides_raises():
+    with pytest.raises(DiceValidationError, match="INVALID_DIE_SIDES"):
+        roll_die(0, rng=SeededRNG(0))
+
+
+def test_roll_die_negative_sides_raises():
+    with pytest.raises(DiceValidationError, match="INVALID_DIE_SIDES"):
+        roll_die(-1, rng=SeededRNG(0))

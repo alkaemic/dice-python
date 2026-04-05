@@ -38,6 +38,20 @@ def test_max_explosions_exceeded():
         execute(parsed.ast, rng=SeededRNG(42))
 
 
+def test_division_by_zero_raises():
+    parsed = parse("1d6/0")
+    assert not parsed.errors
+    with pytest.raises(DiceExecutionError, match="DIVISION_BY_ZERO"):
+        execute(parsed.ast, rng=SeededRNG(42))
+
+
+def test_zero_sided_die_raises():
+    parsed = parse("d0")
+    assert not parsed.errors
+    with pytest.raises(Exception):
+        execute(parsed.ast, rng=SeededRNG(42))
+
+
 def test_within_limits_succeeds():
     config = ExecutionConfig(max_dice=10, max_depth=5)
     parsed = parse("2d6+3")

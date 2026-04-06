@@ -16,6 +16,7 @@ from pyparsing import (
     Regex,
     Suppress,
     Word,
+    ZeroOrMore,
     infix_notation,
     nums,
     opAssoc,
@@ -90,16 +91,7 @@ _dice_expr = Group(
     Optional(_dice_count)
     + Suppress(CaselessLiteral("d"))
     + _dice_sides
-    + Group(
-        Optional(
-            _modifier
-            + Optional(
-                _modifier
-                + Optional(_modifier + Optional(_modifier))
-            )
-        )
-    )
-    .set_results_name("modifiers")
+    + Group(ZeroOrMore(_modifier)).set_results_name("modifiers")
 ).set_parse_action(make_dice_term).set_name("dice_expr")
 
 # ---------------------------------------------------------------------------

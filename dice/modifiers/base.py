@@ -18,9 +18,9 @@ class ModifierSpec:
 
 
 # Type alias for modifier functions.
-# Takes: results list, modifier spec, rng, faces count
+# Takes: results list, modifier spec, rng, faces count, max explosions
 # Returns: mutated results list
-ModifierFn = Callable[[list[DieResult], ModifierSpec, RNG, int], list[DieResult]]
+ModifierFn = Callable[[list[DieResult], ModifierSpec, RNG, int, int], list[DieResult]]
 
 _COMPARE_RE = re.compile(r"^(>=|<=|>|<|=)(\d+)$")
 

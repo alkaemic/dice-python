@@ -7,7 +7,7 @@ from dice.terms.die_result import DieResult
 
 
 def failure(
-    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int
+    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int, max_explosions: int = 0
 ) -> list[DieResult]:
     """Failure counting (Tier 2 — not yet implemented)."""
     raise DiceExecutionError(

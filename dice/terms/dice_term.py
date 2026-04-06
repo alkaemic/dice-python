@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from dice.constants import MAX_EXPLOSIONS
 from dice.rng import RNG, roll_die
 from dice.terms.base import RollTerm
 from dice.terms.die_result import DieResult
@@ -24,6 +25,7 @@ class DiceTerm(RollTerm):
         self.count = count
         self.faces = faces
         self.modifier_strings: list[str] = modifier_strings or []
+        self.max_explosions: int = MAX_EXPLOSIONS
         self.results: list[DieResult] = []
 
     @property
@@ -47,7 +49,9 @@ class DiceTerm(RollTerm):
             from dice.modifiers.registry import apply_modifiers
 
             specs = parse_modifier_string("".join(self.modifier_strings))
-            self.results = apply_modifiers(self.results, specs, rng, self.faces)
+            self.results = apply_modifiers(
+                self.results, specs, rng, self.faces, self.max_explosions
+            )
         self._evaluated = True
         return self
 

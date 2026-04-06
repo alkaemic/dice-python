@@ -8,11 +8,15 @@ from dice.terms.die_result import DieResult
 
 
 def explode(
-    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int
+    results: list[DieResult],
+    spec: ModifierSpec,
+    rng: RNG,
+    faces: int,
+    max_explosions: int = MAX_EXPLOSIONS,
 ) -> list[DieResult]:
     """Exploding dice: reroll any die meeting the compare point and add it.
 
-    Repeats until no new die meets the condition or MAX_EXPLOSIONS is hit.
+    Repeats until no new die meets the condition or *max_explosions* is hit.
     Default compare point: ``= faces`` (i.e. max value).
     """
     explosions = 0
@@ -24,10 +28,10 @@ def explode(
         next_round: list[DieResult] = []
         for _ in new_dice:
             explosions += 1
-            if explosions > MAX_EXPLOSIONS:
+            if explosions > max_explosions:
                 raise DiceExecutionError(
                     code="MAX_EXPLOSIONS_EXCEEDED",
-                    message=f"Exceeded maximum explosion count ({MAX_EXPLOSIONS})",
+                    message=f"Exceeded maximum explosion count ({max_explosions})",
                 )
             value = roll_die(faces, rng)
             dr = DieResult(value=value, exploded=True)

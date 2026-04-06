@@ -7,7 +7,7 @@ from dice.terms.die_result import DieResult
 
 
 def _sort_stub(
-    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int
+    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int, max_explosions: int = 0
 ) -> list[DieResult]:
     """Sort results (Tier 2 — not yet implemented)."""
     raise DiceExecutionError(

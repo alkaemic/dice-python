@@ -39,7 +39,9 @@ def evaluate_tree(root: RollTerm, ctx: _EvalContext) -> None:
                 evaluate_tree(child, ctx)
 
         # For dice terms, enforce dice count limit before rolling
+        # and propagate max_explosions from config
         if isinstance(root, DiceTerm) and not root._evaluated:
+            root.max_explosions = ctx.config.max_explosions
             ctx.total_dice_rolled += root.count
             if ctx.total_dice_rolled > ctx.config.max_dice:
                 raise DiceExecutionError(

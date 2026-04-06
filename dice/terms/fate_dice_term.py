@@ -37,7 +37,9 @@ class FateDiceTerm(DiceTerm):
             from dice.modifiers.registry import apply_modifiers
 
             specs = parse_modifier_string("".join(self.modifier_strings))
-            self.results = apply_modifiers(self.results, specs, rng, 3)
+            self.results = apply_modifiers(
+                self.results, specs, rng, 3, self.max_explosions
+            )
         self._evaluated = True
         return self
 

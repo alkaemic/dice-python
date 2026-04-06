@@ -11,6 +11,7 @@ def _reroll(
     spec: ModifierSpec,
     rng: RNG,
     faces: int,
+    max_explosions: int,
     *,
     once: bool,
 ) -> list[DieResult]:
@@ -24,7 +25,7 @@ def _reroll(
         next_round: list[DieResult] = []
         for die in to_check:
             iterations += 1
-            if iterations > MAX_EXPLOSIONS:
+            if iterations > max_explosions:
                 # Safety valve — prevent infinite reroll loops
                 break
             die.rerolled = True
@@ -36,24 +37,32 @@ def _reroll(
                 and matches_compare_point(replacement.value, spec.compare_point, faces)
             ):
                 next_round.append(replacement)
-        if iterations > MAX_EXPLOSIONS:
+        if iterations > max_explosions:
             break
         to_check = next_round
     return results
 
 
 def reroll(
-    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int
+    results: list[DieResult],
+    spec: ModifierSpec,
+    rng: RNG,
+    faces: int,
+    max_explosions: int = MAX_EXPLOSIONS,
 ) -> list[DieResult]:
     """Reroll dice matching the compare point until none match."""
-    return _reroll(results, spec, rng, faces, once=False)
+    return _reroll(results, spec, rng, faces, max_explosions, once=False)
 
 
 def reroll_once(
-    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int
+    results: list[DieResult],
+    spec: ModifierSpec,
+    rng: RNG,
+    faces: int,
+    max_explosions: int = MAX_EXPLOSIONS,
 ) -> list[DieResult]:
     """Reroll dice matching the compare point at most once."""
-    return _reroll(results, spec, rng, faces, once=True)
+    return _reroll(results, spec, rng, faces, max_explosions, once=True)
 
 
 REROLL_MODIFIERS: dict[str, ModifierFn] = {

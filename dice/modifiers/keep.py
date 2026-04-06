@@ -6,7 +6,7 @@ from dice.terms.die_result import DieResult
 
 
 def keep_highest(
-    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int
+    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int, max_explosions: int = 0
 ) -> list[DieResult]:
     """Keep the highest *n* dice (default 1)."""
     n = spec.argument if spec.argument is not None else 1
@@ -19,7 +19,7 @@ def keep_highest(
 
 
 def keep_lowest(
-    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int
+    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int, max_explosions: int = 0
 ) -> list[DieResult]:
     """Keep the lowest *n* dice (default 1)."""
     n = spec.argument if spec.argument is not None else 1

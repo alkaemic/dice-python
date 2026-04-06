@@ -31,6 +31,6 @@ def compute_infix_total(children: list[RollTerm]) -> int | float:
                     code="DIVISION_BY_ZERO",
                     message="Division by zero in dice expression",
                 )
-            result = result // right.total
+            result = result / right.total
         i += 2
     return result

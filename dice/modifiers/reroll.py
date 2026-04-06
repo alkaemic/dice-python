@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dice.constants import MAX_EXPLOSIONS
+from dice.errors import DiceExecutionError
 from dice.modifiers.base import ModifierFn, ModifierSpec, matches_compare_point
 from dice.rng import RNG, roll_die
 from dice.terms.die_result import DieResult
@@ -16,6 +17,11 @@ def _reroll(
     once: bool,
 ) -> list[DieResult]:
     """Shared implementation for reroll and reroll-once."""
+    if spec.compare_point is None:
+        raise DiceExecutionError(
+            code="MISSING_COMPARE_POINT",
+            message=f"Reroll modifier '{spec.key}' requires a compare point (e.g. '{spec.key}<2')",
+        )
     iterations = 0
     to_check = [
         r for r in results

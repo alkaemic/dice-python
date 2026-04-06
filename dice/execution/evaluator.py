@@ -32,11 +32,15 @@ def evaluate_tree(root: RollTerm, ctx: _EvalContext) -> None:
         )
 
     try:
-        # If this node has children, evaluate them first (depth-first)
+        # If this node has children, evaluate them first (depth-first).
+        # Only recurse into RollTerm instances — GroupTerm.children is
+        # list[list[RollTerm]], and GroupTerm.evaluate() handles its own
+        # nested child evaluation.
         children: list[RollTerm] | None = getattr(root, "children", None)
         if children is not None:
             for child in children:
-                evaluate_tree(child, ctx)
+                if isinstance(child, RollTerm):
+                    evaluate_tree(child, ctx)
 
         # For dice terms, enforce dice count limit before rolling
         # and propagate max_explosions from config

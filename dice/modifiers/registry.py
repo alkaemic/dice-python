@@ -10,7 +10,7 @@ MODIFIER_ORDER: list[str] = [
     "min", "max",           # 1-2: clamp
     "!", "!!", "!p",        # 3: explode/compound/penetrate
     "r", "ro",              # 4: reroll
-    "kh", "kl",             # 5: keep
+    "k", "kh", "kl",        # 5: keep
     "dh", "dl",             # 6: drop
     ">", "<", "=",          # 7: target/success
     "f",                    # 8: failure

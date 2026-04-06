@@ -32,6 +32,7 @@ def keep_lowest(
 
 
 KEEP_MODIFIERS: dict[str, ModifierFn] = {
+    "k": keep_highest,
     "kh": keep_highest,
     "kl": keep_lowest,
 }

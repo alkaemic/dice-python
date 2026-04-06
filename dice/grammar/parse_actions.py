@@ -40,6 +40,19 @@ def make_dice_term(string: str, location: int, tokens: Any) -> DiceTerm | FateDi
     return DiceTerm(count=count, faces=faces, modifier_strings=modifier_strings)
 
 
+def _extract_parenthetical_text(string: str, location: int) -> str:
+    """Extract the full parenthesized text from the original input string."""
+    depth = 0
+    for i in range(location, len(string)):
+        if string[i] == "(":
+            depth += 1
+        elif string[i] == ")":
+            depth -= 1
+            if depth == 0:
+                return string[location : i + 1]
+    return string[location:]
+
+
 def make_parenthetical(string: str, location: int, tokens: Any) -> ParentheticalTerm:
     inner_items = tokens[0]
     children: list[RollTerm] = []
@@ -48,8 +61,7 @@ def make_parenthetical(string: str, location: int, tokens: Any) -> Parenthetical
             children.append(item)
         elif isinstance(item, list):
             children.extend(item)
-    # Reconstruct expression text from the matched portion
-    expr_text = "(" + "+".join("..." for _ in children) + ")"
+    expr_text = _extract_parenthetical_text(string, location)
     return ParentheticalTerm(expression=expr_text, children=children)
 
 

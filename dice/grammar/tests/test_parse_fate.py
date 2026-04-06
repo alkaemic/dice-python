@@ -7,7 +7,7 @@ def test_parse_fate():
     assert len(r.errors) == 0
     dt = r.ast.children[0]
     assert isinstance(dt, FateDiceTerm)
-    assert dt.kind == "dice_term"
+    assert dt.kind == "fate_dice_term"
     assert dt.count == 4
 
 

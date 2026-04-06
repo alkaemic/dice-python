@@ -4,7 +4,7 @@ from dice.terms import FateDiceTerm
 
 def test_fate_dice_kind():
     dt = FateDiceTerm(count=4)
-    assert dt.kind == "dice_term"
+    assert dt.kind == "fate_dice_term"
 
 
 def test_fate_dice_notation():
@@ -41,7 +41,7 @@ def test_fate_dice_to_dict():
     dt.evaluate(rng)
     d = dt.to_dict()
     assert d["id"] == "fate01"
-    assert d["kind"] == "dice_term"
+    assert d["kind"] == "fate_dice_term"
     assert d["notation"] == "4dF"
     assert len(d["dice"]) == 4
 

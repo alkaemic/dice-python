@@ -10,6 +10,8 @@ from dice.terms.die_result import DieResult
 class FateDiceTerm(DiceTerm):
     """A dice term for Fate/Fudge dice producing values in {-1, 0, 1}."""
 
+    kind: str = "fate_dice_term"
+
     def __init__(
         self,
         *,

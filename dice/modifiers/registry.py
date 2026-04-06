@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import threading
+
 from dice.constants import MAX_EXPLOSIONS
 from dice.modifiers.base import ModifierFn, ModifierSpec
 from dice.rng import RNG
@@ -20,16 +22,19 @@ MODIFIER_ORDER: list[str] = [
 ]
 
 _MODIFIER_REGISTRY: dict[str, ModifierFn] = {}
+_MODIFIER_LOCK = threading.Lock()
 
 
 def register_modifier(key: str, fn: ModifierFn) -> None:
     """Register a modifier function for a given key."""
-    _MODIFIER_REGISTRY[key] = fn
+    with _MODIFIER_LOCK:
+        _MODIFIER_REGISTRY[key] = fn
 
 
 def get_modifier(key: str) -> ModifierFn | None:
     """Look up a registered modifier by key."""
-    return _MODIFIER_REGISTRY.get(key)
+    with _MODIFIER_LOCK:
+        return _MODIFIER_REGISTRY.get(key)
 
 
 def _order_key(spec: ModifierSpec) -> int:
@@ -54,8 +59,10 @@ def apply_modifiers(
     execution, so ``4d6r1kh3`` and ``4d6kh3r1`` produce identical results.
     """
     sorted_specs = sorted(modifier_specs, key=_order_key)
+    with _MODIFIER_LOCK:
+        fns = {spec.key: _MODIFIER_REGISTRY.get(spec.key) for spec in sorted_specs}
     for spec in sorted_specs:
-        fn = _MODIFIER_REGISTRY.get(spec.key)
+        fn = fns[spec.key]
         if fn is None:
             raise ValueError(f"No modifier registered for key: {spec.key!r}")
         results = fn(results, spec, rng, faces, max_explosions)

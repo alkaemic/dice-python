@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pyparsing import ParseBaseException
+
 from dice.constants import MAX_EXPRESSION_LENGTH, SYNTAX_VERSION
 from dice.errors import DiceParseError
 from dice.grammar.parse_result import ParseResult
@@ -43,10 +45,23 @@ def parse(expression: str) -> ParseResult:
 
     try:
         terms, flavor = parse_notation(text)
-    except Exception as exc:
+    except ParseBaseException as exc:
         error = DiceParseError(
             code="PARSE_ERROR",
             message=str(exc),
+            expression=expression,
+        )
+        dummy = RollExpression(expression=expression, children=[], label=None)
+        return ParseResult(
+            ast=dummy,
+            expression=expression,
+            syntax_version=SYNTAX_VERSION,
+            errors=[error],
+        )
+    except RecursionError:
+        error = DiceParseError(
+            code="EXPRESSION_TOO_COMPLEX",
+            message="Expression is too deeply nested to parse",
             expression=expression,
         )
         dummy = RollExpression(expression=expression, children=[], label=None)

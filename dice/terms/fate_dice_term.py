@@ -38,10 +38,15 @@ class FateDiceTerm(DiceTerm):
             from dice.modifiers.parser import parse_modifier_string
             from dice.modifiers.registry import apply_modifiers
 
+            initial_count = len(self.results)
             specs = parse_modifier_string("".join(self.modifier_strings))
             self.results = apply_modifiers(
                 self.results, specs, rng, 3, self.max_explosions
             )
+            # Modifiers create new dice via roll_die(3), producing 1-3.
+            # Apply the fate offset (-2) to any modifier-created results.
+            for r in self.results[initial_count:]:
+                r.value -= 2
         self._evaluated = True
         return self
 

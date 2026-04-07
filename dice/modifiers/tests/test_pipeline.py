@@ -1,9 +1,11 @@
-from dice.modifiers.base import ModifierSpec
+from dice.modifiers.base import DiceContext, ModifierSpec
 from dice.modifiers.parser import parse_modifier_string
 from dice.modifiers.registry import apply_modifiers
 from dice.rng import SeededRNG
 from dice.terms import DiceTerm
 from dice.terms.die_result import DieResult
+
+_ctx = DiceContext.standard
 
 
 def test_order_independence_kh_r():
@@ -39,7 +41,7 @@ def test_apply_modifiers_sorts_by_order():
         ModifierSpec(key="r", compare_point="=1"),
     ]
     # Even though kh comes first in the list, reroll runs first (position 4 < 5)
-    results = apply_modifiers(results, specs, rng, faces=6)
+    results = apply_modifiers(results, specs, rng, ctx=_ctx(6))
     rerolled = [r for r in results if r.rerolled]
     assert len(rerolled) >= 1
     kept = [r for r in results if r.kept]
@@ -51,7 +53,7 @@ def test_explode_then_keep():
     rng = SeededRNG(42)
     results = [DieResult(value=6), DieResult(value=2)]
     specs = parse_modifier_string("!kh1")
-    results = apply_modifiers(results, specs, rng, faces=6)
+    results = apply_modifiers(results, specs, rng, ctx=_ctx(6))
     kept = [r for r in results if r.kept]
     assert len(kept) == 1
     # The kept die should be the highest among all (including exploded)

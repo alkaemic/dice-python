@@ -1,4 +1,9 @@
-from dice.modifiers.base import ModifierFn, ModifierSpec, matches_compare_point
+from dice.modifiers.base import (
+    DiceContext,
+    ModifierFn,
+    ModifierSpec,
+    matches_compare_point,
+)
 from dice.modifiers.parser import parse_modifier_string
 from dice.modifiers.registry import (
     MODIFIER_ORDER,
@@ -8,6 +13,7 @@ from dice.modifiers.registry import (
 )
 
 __all__ = [
+    "DiceContext",
     "MODIFIER_ORDER",
     "ModifierFn",
     "ModifierSpec",

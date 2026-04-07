@@ -3,7 +3,7 @@ from __future__ import annotations
 import threading
 
 from dice.constants import MAX_EXPLOSIONS
-from dice.modifiers.base import ModifierFn, ModifierSpec
+from dice.modifiers.base import DiceContext, ModifierFn, ModifierSpec
 from dice.rng import RNG
 from dice.terms.die_result import DieResult
 
@@ -50,7 +50,7 @@ def apply_modifiers(
     results: list[DieResult],
     modifier_specs: list[ModifierSpec],
     rng: RNG,
-    faces: int,
+    ctx: DiceContext,
     max_explosions: int = MAX_EXPLOSIONS,
 ) -> list[DieResult]:
     """Apply modifiers in the fixed execution order.
@@ -65,7 +65,7 @@ def apply_modifiers(
         fn = fns[spec.key]
         if fn is None:
             raise ValueError(f"No modifier registered for key: {spec.key!r}")
-        results = fn(results, spec, rng, faces, max_explosions)
+        results = fn(results, spec, rng, ctx, max_explosions)
     return results
 
 

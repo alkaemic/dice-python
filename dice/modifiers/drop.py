@@ -1,12 +1,16 @@
 from __future__ import annotations
 
-from dice.modifiers.base import ModifierFn, ModifierSpec
+from dice.modifiers.base import DiceContext, ModifierFn, ModifierSpec
 from dice.rng import RNG
 from dice.terms.die_result import DieResult
 
 
 def drop_highest(
-    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int, max_explosions: int = 0
+    results: list[DieResult],
+    spec: ModifierSpec,
+    rng: RNG,
+    ctx: DiceContext,
+    max_explosions: int = 0,
 ) -> list[DieResult]:
     """Drop the highest *n* dice (default 1)."""
     n = spec.argument if spec.argument is not None else 1
@@ -19,7 +23,11 @@ def drop_highest(
 
 
 def drop_lowest(
-    results: list[DieResult], spec: ModifierSpec, rng: RNG, faces: int, max_explosions: int = 0
+    results: list[DieResult],
+    spec: ModifierSpec,
+    rng: RNG,
+    ctx: DiceContext,
+    max_explosions: int = 0,
 ) -> list[DieResult]:
     """Drop the lowest *n* dice (default 1)."""
     n = spec.argument if spec.argument is not None else 1

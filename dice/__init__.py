@@ -19,9 +19,9 @@ from dice.grammar import ParseResult, parse, validate  # noqa: E402
 from dice.rng import RNG, DefaultRNG, SeededRNG  # noqa: E402
 from dice.roll_result import RollResult  # noqa: E402
 from dice.terms import (  # noqa: E402
+    FATE_FACE_VALUES,
     DiceTerm,
     DieResult,
-    FateDiceTerm,
     FunctionTerm,
     GroupTerm,
     NumericTerm,
@@ -59,7 +59,7 @@ __all__ = [
     "RollTerm",
     "RollExpression",
     "DiceTerm",
-    "FateDiceTerm",
+    "FATE_FACE_VALUES",
     "NumericTerm",
     "OperatorTerm",
     "ParentheticalTerm",

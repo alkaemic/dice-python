@@ -203,7 +203,7 @@ def test_group_term_children_depth_not_tracked():
             raised = True
 
     assert raised, (
-        f"Expected MAX_DEPTH_EXCEEDED for a 3-level deep expression with "
-        f"max_depth=2, but evaluation succeeded. GroupTerm children are "
-        f"evaluated outside of evaluate_tree's depth tracking."
+        "Expected MAX_DEPTH_EXCEEDED for a 3-level deep expression with "
+        "max_depth=2, but evaluation succeeded. GroupTerm children are "
+        "evaluated outside of evaluate_tree's depth tracking."
     )

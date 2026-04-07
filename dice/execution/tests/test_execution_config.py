@@ -14,7 +14,6 @@ import pytest
 
 from dice.execution.config import ExecutionConfig
 
-
 # ---------------------------------------------------------------------------
 # Zero values — should be rejected
 # ---------------------------------------------------------------------------

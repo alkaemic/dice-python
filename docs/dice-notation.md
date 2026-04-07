@@ -23,7 +23,7 @@ The count is optional and defaults to 1. The sides can be any positive integer.
 | `dF` or `dFate` | Fate/Fudge die, produces -1, 0, or +1 |
 | `4dF` | Roll four Fate dice |
 
-Fate dice are internally rolled as `d3` and mapped: 1 becomes -1, 2 becomes 0, 3 becomes +1.
+Fate dice use face values `{-1, 0, 1}`. Modifiers (reroll, explode, etc.) produce correct fate values automatically.
 
 ## Arithmetic
 

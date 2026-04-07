@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Any
 
 from dice.terms import (
+    FATE_FACE_VALUES,
     DiceTerm,
-    FateDiceTerm,
     FunctionTerm,
     NumericTerm,
     OperatorTerm,
@@ -21,7 +21,7 @@ def make_float(string: str, location: int, tokens: Any) -> NumericTerm:
     return NumericTerm(value=float(tokens[0]))
 
 
-def make_dice_term(string: str, location: int, tokens: Any) -> DiceTerm | FateDiceTerm:
+def make_dice_term(string: str, location: int, tokens: Any) -> DiceTerm:
     tok = tokens[0]
     count = int(tok.get("count", 1))
     sides_raw = tok["sides"]
@@ -30,7 +30,13 @@ def make_dice_term(string: str, location: int, tokens: Any) -> DiceTerm | FateDi
     modifier_strings: list[str] = list(tok.get("modifiers", []))
 
     if isinstance(sides_raw, str) and sides_raw.upper() in ("F", "FATE"):
-        return FateDiceTerm(count=count, modifier_strings=modifier_strings)
+        return DiceTerm(
+            count=count,
+            faces=len(FATE_FACE_VALUES),
+            face_values=FATE_FACE_VALUES,
+            notation_label="F",
+            modifier_strings=modifier_strings,
+        )
 
     if isinstance(sides_raw, str) and sides_raw == "%":
         faces = 100

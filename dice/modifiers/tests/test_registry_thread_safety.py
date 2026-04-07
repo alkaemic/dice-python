@@ -18,7 +18,6 @@ import threading
 
 from dice.evaluation.registry import (
     _EVALUATOR_REGISTRY,
-    get_evaluator,
     register_evaluator,
 )
 from dice.modifiers.registry import (

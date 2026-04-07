@@ -1,6 +1,11 @@
 from __future__ import annotations
 
-from dice.modifiers.base import ModifierFn, ModifierSpec, matches_compare_point
+from dice.modifiers.base import (
+    DiceContext,
+    ModifierFn,
+    ModifierSpec,
+    matches_compare_point,
+)
 from dice.rng import RNG
 from dice.terms.die_result import DieResult
 
@@ -22,7 +27,7 @@ def target(
     results: list[DieResult],
     spec: ModifierSpec,
     rng: RNG,
-    faces: int,
+    ctx: DiceContext,
     max_explosions: int = 0,
 ) -> list[DieResult]:
     """Mark dice that meet the target as successes (matched=True).
@@ -32,7 +37,7 @@ def target(
     """
     cp = _resolve_compare_point(spec)
     for r in results:
-        if r.kept and matches_compare_point(r.value, cp, faces):
+        if r.kept and matches_compare_point(r.value, cp, ctx.max_value):
             r.matched = True
     return results
 

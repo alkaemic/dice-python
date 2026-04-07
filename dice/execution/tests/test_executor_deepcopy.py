@@ -20,9 +20,9 @@ import copy
 import timeit
 from typing import Any
 
-from dice.grammar import parse
 from dice.execution.config import ExecutionConfig
 from dice.execution.evaluator import _EvalContext, evaluate_tree
+from dice.grammar import parse
 from dice.rng import SeededRNG
 
 

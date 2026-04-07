@@ -13,13 +13,10 @@ These tests verify that:
 
 from __future__ import annotations
 
-import pytest
-
 from dice import roll
 from dice.grammar.parser import parse
 from dice.modifiers.parser import parse_modifier_string
 from dice.rng import SeededRNG
-
 
 # ---------------------------------------------------------------------------
 # Grammar level — these pass (grammar already accepts 'k')

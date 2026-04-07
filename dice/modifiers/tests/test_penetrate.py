@@ -1,17 +1,19 @@
 import pytest
 
 from dice.errors import DiceExecutionError
-from dice.modifiers.base import ModifierSpec
+from dice.modifiers.base import DiceContext, ModifierSpec
 from dice.modifiers.penetrate import PENETRATE_MODIFIERS, penetrate
 from dice.rng import SeededRNG
 from dice.terms.die_result import DieResult
+
+_ctx = DiceContext.standard
 
 
 def test_penetrate_no_match():
     """No die equals faces, so nothing penetrates."""
     results = [DieResult(value=3), DieResult(value=4)]
     rng = SeededRNG(0)
-    out = penetrate(results, ModifierSpec(key="!p"), rng, faces=6)
+    out = penetrate(results, ModifierSpec(key="!p"), rng, ctx=_ctx(6))
     assert len(out) == 2
     assert not any(r.exploded for r in out)
 
@@ -20,7 +22,7 @@ def test_penetrate_single():
     """A die that matches should add a new die with value - 1."""
     rng = SeededRNG(42)
     results = [DieResult(value=6)]
-    out = penetrate(results, ModifierSpec(key="!p"), rng, faces=6)
+    out = penetrate(results, ModifierSpec(key="!p"), rng, ctx=_ctx(6))
     assert len(out) >= 2
     # The new die should be marked as exploded
     assert out[1].exploded is True
@@ -35,7 +37,7 @@ def test_penetrate_subtracts_one():
     # Seed to control the outcome.
     rng = SeededRNG(42)
     results = [DieResult(value=2)]
-    out = penetrate(results, ModifierSpec(key="!p"), rng, faces=2)
+    out = penetrate(results, ModifierSpec(key="!p"), rng, ctx=_ctx(2))
     # Original die stays at 2
     assert out[0].value == 2
     # Each subsequent die is roll - 1
@@ -52,7 +54,7 @@ def test_penetrate_chain_subtracts_one_each_time():
     rng = SeededRNG(0)
     results = [DieResult(value=1)]
     with pytest.raises(DiceExecutionError, match="MAX_EXPLOSIONS_EXCEEDED"):
-        penetrate(results, ModifierSpec(key="!p"), rng, faces=1, max_explosions=3)
+        penetrate(results, ModifierSpec(key="!p"), rng, ctx=_ctx(1), max_explosions=3)
     # Before the error, some dice were added — all penetrated dice should be 0
     for r in results[1:]:
         assert r.value == 0  # roll_die(1)=1, minus 1 = 0
@@ -64,7 +66,7 @@ def test_penetrate_with_compare_point():
     results = [DieResult(value=5), DieResult(value=2)]
     rng = SeededRNG(42)
     out = penetrate(
-        results, ModifierSpec(key="!p", compare_point=">=5"), rng, faces=6
+        results, ModifierSpec(key="!p", compare_point=">=5"), rng, ctx=_ctx(6)
     )
     assert len(out) >= 3  # At least one penetration from the 5
     assert out[2].exploded is True
@@ -80,21 +82,21 @@ def test_penetrate_max_explosions_exceeded():
     results = [DieResult(value=2)]
     # Force low max to trigger the safety
     with pytest.raises(DiceExecutionError, match="MAX_EXPLOSIONS_EXCEEDED"):
-        penetrate(results, ModifierSpec(key="!p"), rng, faces=2, max_explosions=1)
+        penetrate(results, ModifierSpec(key="!p"), rng, ctx=_ctx(2), max_explosions=1)
 
 
 def test_penetrate_does_not_modify_original_value():
     """Original dice values should not be changed by penetration."""
     rng = SeededRNG(42)
     results = [DieResult(value=6)]
-    out = penetrate(results, ModifierSpec(key="!p"), rng, faces=6)
+    out = penetrate(results, ModifierSpec(key="!p"), rng, ctx=_ctx(6))
     assert out[0].value == 6
 
 
 def test_penetrate_empty_list():
     """Penetrate on empty list should not crash."""
     rng = SeededRNG(0)
-    out = penetrate([], ModifierSpec(key="!p"), rng, faces=6)
+    out = penetrate([], ModifierSpec(key="!p"), rng, ctx=_ctx(6))
     assert out == []
 
 

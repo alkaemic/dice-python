@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dice.modifiers.base import ModifierFn, ModifierSpec
+from dice.modifiers.base import DiceContext, ModifierFn, ModifierSpec
 from dice.rng import RNG
 from dice.terms.die_result import DieResult
 
@@ -9,7 +9,7 @@ def sort_ascending(
     results: list[DieResult],
     spec: ModifierSpec,
     rng: RNG,
-    faces: int,
+    ctx: DiceContext,
     max_explosions: int = 0,
 ) -> list[DieResult]:
     """Sort dice results by value in ascending order."""
@@ -21,7 +21,7 @@ def sort_descending(
     results: list[DieResult],
     spec: ModifierSpec,
     rng: RNG,
-    faces: int,
+    ctx: DiceContext,
     max_explosions: int = 0,
 ) -> list[DieResult]:
     """Sort dice results by value in descending order."""

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import copy
-
 from dice.constants import SYNTAX_VERSION
 from dice.execution.config import ExecutionConfig
 from dice.execution.evaluator import _EvalContext, evaluate_tree
@@ -24,7 +22,7 @@ def execute(
 
     evaluate_tree(ast, _EvalContext(rng, config))
 
-    tree = copy.deepcopy(ast.to_dict())
+    tree = ast.to_dict()
     return ExecutionResult(
         tree=tree,
         total=ast.total,

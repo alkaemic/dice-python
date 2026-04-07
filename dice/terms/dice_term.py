@@ -27,6 +27,9 @@ class DiceTerm(RollTerm):
         self.modifier_strings: list[str] = modifier_strings or []
         self.max_explosions: int = MAX_EXPLOSIONS
         self.results: list[DieResult] = []
+        self._has_target: bool = False
+
+    _TARGET_KEYS = frozenset({">", "<", "=", "f"})
 
     @property
     def notation(self) -> str:
@@ -35,6 +38,10 @@ class DiceTerm(RollTerm):
 
     @property
     def total(self) -> int:
+        if self._has_target:
+            successes = sum(1 for r in self.results if r.matched)
+            failures = sum(1 for r in self.results if r.failure)
+            return successes - failures
         return sum(r.value for r in self.results if r.kept)
 
     def evaluate(self, rng: RNG) -> DiceTerm:
@@ -49,6 +56,7 @@ class DiceTerm(RollTerm):
             from dice.modifiers.registry import apply_modifiers
 
             specs = parse_modifier_string("".join(self.modifier_strings))
+            self._has_target = any(s.key in self._TARGET_KEYS for s in specs)
             self.results = apply_modifiers(
                 self.results, specs, rng, self.faces, self.max_explosions
             )

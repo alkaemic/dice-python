@@ -73,7 +73,30 @@ _reroll_mod = Combine(
     + Optional(_compare_point)
 )
 
-_modifier = (_keep_mod | _drop_mod | _explode_mod | _reroll_mod).set_name("modifier")
+_critical_mod = Combine(
+    (CaselessLiteral("cs") | CaselessLiteral("cf"))
+    + Optional(_compare_point)
+)
+
+_sort_mod = CaselessLiteral("sa") | CaselessLiteral("sd") | CaselessLiteral("s")
+
+_target_mod = Combine(
+    _compare_op + Word(nums)
+)
+
+_failure_mod = Combine(
+    CaselessLiteral("f") + _compare_point
+)
+
+_clamp_mod = Combine(
+    (CaselessLiteral("min") | CaselessLiteral("max"))
+    + Word(nums)
+)
+
+_modifier = (
+    _keep_mod | _drop_mod | _explode_mod | _reroll_mod
+    | _critical_mod | _sort_mod | _target_mod | _failure_mod | _clamp_mod
+).set_name("modifier")
 
 # ---------------------------------------------------------------------------
 # Dice expression:  [count] 'd' sides [modifiers...]

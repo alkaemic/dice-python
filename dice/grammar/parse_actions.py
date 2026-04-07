@@ -88,5 +88,12 @@ def make_add_sub(string: str, location: int, tokens: Any) -> Any:
     return _flatten_infix(tokens)
 
 
-def make_mul_div(string: str, location: int, tokens: Any) -> Any:
-    return _flatten_infix(tokens)
+def make_mul_div(string: str, location: int, tokens: Any) -> ParentheticalTerm:
+    items = tokens[0]
+    children: list[RollTerm] = []
+    for item in items:
+        if isinstance(item, str):
+            children.append(OperatorTerm(operator=item))
+        elif isinstance(item, RollTerm):
+            children.append(item)
+    return ParentheticalTerm(expression="", children=children)

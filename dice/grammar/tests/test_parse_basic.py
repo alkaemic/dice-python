@@ -48,11 +48,16 @@ def test_parse_subtraction():
 def test_parse_precedence():
     r = parse("1d20+3*2")
     assert len(r.errors) == 0
-    # Should have 3 top-level children: 1d20, +, (3*2 as nested list)
     children = r.ast.children
+    # Should have exactly 3 top-level children: 1d20, +, (3*2 grouped)
+    assert len(children) == 3
     assert children[0].kind == "dice_term"
-    # The multiplication is nested inside the addition
-    assert len(children) >= 3
+    assert children[1].kind == "operator_term"
+    assert children[1].operator == "+"
+    # The multiplication is grouped into a ParentheticalTerm
+    assert children[2].kind == "parenthetical_term"
+    assert len(children[2].children) == 3
+    assert children[2].children[1].operator == "*"
 
 
 def test_parse_ast_is_roll_expression():

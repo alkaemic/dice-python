@@ -6,9 +6,13 @@ def test_execute_parenthetical():
     result = roll("(2d6+3)*2", rng=SeededRNG(42))
     tree = result.tree
     assert tree["kind"] == "roll_expression"
-    assert tree["children"][0]["kind"] == "parenthetical_term"
-    assert tree["children"][1]["kind"] == "operator_term"
-    assert tree["children"][2]["kind"] == "numeric_term"
+    # The mul/div level wraps into a ParentheticalTerm for precedence
+    mul_group = tree["children"][0]
+    assert mul_group["kind"] == "parenthetical_term"
+    # Inside: [(2d6+3), *, 2]
+    assert mul_group["children"][0]["kind"] == "parenthetical_term"
+    assert mul_group["children"][1]["kind"] == "operator_term"
+    assert mul_group["children"][2]["kind"] == "numeric_term"
 
 
 def test_execute_complex_expression():

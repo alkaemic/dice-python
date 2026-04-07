@@ -21,7 +21,10 @@ def test_total_subtraction():
 
 def test_total_multiplication():
     result = roll("1d6*2", rng=SeededRNG(42))
-    dice_total = result.tree["children"][0]["total"]
+    # Mul/div is now wrapped in a ParentheticalTerm for precedence
+    mul_group = result.tree["children"][0]
+    assert mul_group["kind"] == "parenthetical_term"
+    dice_total = mul_group["children"][0]["total"]
     assert result.total == dice_total * 2
 
 

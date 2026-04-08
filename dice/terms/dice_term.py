@@ -107,9 +107,11 @@ class DiceTerm(RollTerm):
         return self
 
     def to_dict(self) -> dict[str, Any]:
+        sides: int | str = self._notation_label if self._notation_label is not None else self.faces
         d: dict[str, Any] = {
             "id": self.id,
             "kind": self.kind,
+            "sides": sides,
             "notation": self.notation,
             "dice": [r.to_dict() for r in self.results],
             "total": self.total,

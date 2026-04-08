@@ -73,15 +73,15 @@ def matches_compare_point(
     m = _COMPARE_RE.match(compare_point)
     if m is None:
         raise ValueError(f"Invalid compare point: {compare_point!r}")
-    op, threshold_str = m.group(1), int(m.group(2))
+    op, threshold = m.group(1), int(m.group(2))
     if op == "=":
-        return value == threshold_str
+        return value == threshold
     if op == ">":
-        return value > threshold_str
+        return value > threshold
     if op == "<":
-        return value < threshold_str
+        return value < threshold
     if op == ">=":
-        return value >= threshold_str
+        return value >= threshold
     if op == "<=":
-        return value <= threshold_str
+        return value <= threshold
     return False  # pragma: no cover

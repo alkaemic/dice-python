@@ -40,8 +40,10 @@ def _reroll(
         for die in to_check:
             iterations += 1
             if iterations > max_explosions:
-                # Safety valve — prevent infinite reroll loops
-                break
+                raise DiceExecutionError(
+                    code="MAX_REROLLS_EXCEEDED",
+                    message=f"Exceeded maximum reroll count ({max_explosions})",
+                )
             die.rerolled = True
             die.kept = False
             replacement = DieResult(value=ctx.roll_fn(rng))
@@ -52,8 +54,6 @@ def _reroll(
                 ctx.max_value,
             ):
                 next_round.append(replacement)
-        if iterations > max_explosions:
-            break
         to_check = next_round
     return results
 

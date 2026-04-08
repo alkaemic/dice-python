@@ -100,15 +100,11 @@ def test_reroll_respects_config_max_explosions():
     """
     config = ExecutionConfig(max_explosions=5)
 
-    # Reroll currently uses MAX_EXPLOSIONS as a silent safety valve (breaks
-    # out of the loop) rather than raising. Either behavior is acceptable,
-    # but it should respect the config value, not the constant.
-    result = roll("1d6r=1", rng=AlwaysMinRNG(), config=config)
-    dice = result.tree["children"][0]["dice"]
-    rerolled_count = sum(1 for d in dice if d.get("rerolled"))
+    with pytest.raises(DiceExecutionError, match="MAX_REROLLS_EXCEEDED") as exc_info:
+        roll("1d6r=1", rng=AlwaysMinRNG(), config=config)
 
-    assert rerolled_count <= config.max_explosions, (
-        f"Expected at most {config.max_explosions} rerolls from config, "
-        f"got {rerolled_count}. _reroll() is using the hardcoded constant "
+    assert "5" in exc_info.value.message, (
+        f"Expected error to reference config limit 5, got: {exc_info.value.message}. "
+        f"_reroll() is using the hardcoded constant "
         f"({MAX_EXPLOSIONS}) instead of config."
     )

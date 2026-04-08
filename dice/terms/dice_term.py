@@ -39,6 +39,7 @@ class DiceTerm(RollTerm):
         self.modifier_strings: list[str] = modifier_strings or []
         self.max_explosions: int = MAX_EXPLOSIONS
         self.results: list[DieResult] = []
+        self._modifier_specs: list["ModifierSpec"] = []  # noqa: F821
         self._has_target: bool = False
 
     _TARGET_KEYS = frozenset({">", "<", "=", "f"})
@@ -96,6 +97,7 @@ class DiceTerm(RollTerm):
             from dice.modifiers.registry import apply_modifiers
 
             specs = parse_modifier_string("".join(self.modifier_strings))
+            self._modifier_specs = specs
             self._has_target = any(s.key in self._TARGET_KEYS for s in specs)
             ctx = self._make_dice_context()
             self.results = apply_modifiers(
@@ -105,10 +107,16 @@ class DiceTerm(RollTerm):
         return self
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        d: dict[str, Any] = {
             "id": self.id,
             "kind": self.kind,
             "notation": self.notation,
             "dice": [r.to_dict() for r in self.results],
             "total": self.total,
         }
+        if self._modifier_specs:
+            d["modifiers"] = [
+                {"key": s.key, "argument": s.argument, "compare_point": s.compare_point}
+                for s in self._modifier_specs
+            ]
+        return d

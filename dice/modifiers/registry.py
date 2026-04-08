@@ -3,6 +3,7 @@ from __future__ import annotations
 import threading
 
 from dice.constants import MAX_EXPLOSIONS
+from dice.errors import DiceExecutionError
 from dice.modifiers.base import DiceContext, ModifierFn, ModifierSpec
 from dice.rng import RNG
 from dice.terms.die_result import DieResult
@@ -64,7 +65,10 @@ def apply_modifiers(
     for spec in sorted_specs:
         fn = fns[spec.key]
         if fn is None:
-            raise ValueError(f"No modifier registered for key: {spec.key!r}")
+            raise DiceExecutionError(
+                code="UNKNOWN_MODIFIER",
+                message=f"No modifier registered for key: {spec.key!r}",
+            )
         results = fn(results, spec, rng, ctx, max_explosions)
     return results
 

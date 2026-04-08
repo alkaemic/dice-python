@@ -15,7 +15,7 @@ MODIFIER_ORDER: list[str] = [
     "r", "ro",              # 4: reroll
     "k", "kh", "kl",        # 5: keep
     "dh", "dl",             # 6: drop
-    ">", "<", "=",          # 7: target/success
+    ">", "<", "=", ">=", "<=",  # 7: target/success
     "f",                    # 8: failure
     "cs", "cf",             # 9: critical marking
     "s", "sa", "sd",        # 10: sort

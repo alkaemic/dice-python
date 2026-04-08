@@ -46,4 +46,6 @@ TARGET_MODIFIERS: dict[str, ModifierFn] = {
     ">": target,
     "<": target,
     "=": target,
+    ">=": target,
+    "<=": target,
 }

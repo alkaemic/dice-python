@@ -42,7 +42,7 @@ class DiceTerm(RollTerm):
         self._modifier_specs: list["ModifierSpec"] = []  # noqa: F821
         self._has_target: bool = False
 
-    _TARGET_KEYS = frozenset({">", "<", "=", "f"})
+    _TARGET_KEYS = frozenset({">", "<", "=", ">=", "<=", "f"})
 
     @property
     def notation(self) -> str:

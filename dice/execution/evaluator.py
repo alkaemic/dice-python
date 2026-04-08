@@ -21,6 +21,9 @@ class _EvalContext:
 
 def evaluate_tree(root: RollTerm, ctx: _EvalContext) -> None:
     """Recursively evaluate *root* and all its children, enforcing limits."""
+    if root._evaluated:
+        return
+
     ctx.current_depth += 1
     if ctx.current_depth > ctx.config.max_depth:
         raise DiceExecutionError(
@@ -47,7 +50,7 @@ def evaluate_tree(root: RollTerm, ctx: _EvalContext) -> None:
 
         # For dice terms, enforce dice count limit before rolling
         # and propagate max_explosions from config
-        if isinstance(root, DiceTerm) and not root._evaluated:
+        if isinstance(root, DiceTerm):
             root.max_explosions = ctx.config.max_explosions
             ctx.total_dice_rolled += root.count
             if ctx.total_dice_rolled > ctx.config.max_dice:

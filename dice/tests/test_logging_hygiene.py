@@ -26,7 +26,9 @@ def _fresh_import_dice() -> int:
     """
     # Remove dice and all submodules from sys.modules so the import
     # re-executes __init__.py from scratch.
-    dice_modules = [key for key in sys.modules if key == "dice" or key.startswith("dice.")]
+    dice_modules = [
+        key for key in sys.modules if key == "dice" or key.startswith("dice.")
+    ]
     for mod in dice_modules:
         del sys.modules[mod]
 
@@ -61,7 +63,9 @@ def test_import_does_not_add_root_handlers():
 def test_import_does_not_call_basic_config():
     """The dice package should not call logging.basicConfig()."""
     # Re-import to ensure __init__.py runs
-    dice_modules = [key for key in sys.modules if key == "dice" or key.startswith("dice.")]
+    dice_modules = [
+        key for key in sys.modules if key == "dice" or key.startswith("dice.")
+    ]
     for mod in dice_modules:
         del sys.modules[mod]
 

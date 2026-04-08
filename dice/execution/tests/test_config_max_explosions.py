@@ -44,7 +44,8 @@ def test_explode_respects_config_max_explosions():
     # The error message should reference the config value (3), not the constant (100)
     assert "3" in exc_info.value.message, (
         f"Expected error to reference config limit 3, got: {exc_info.value.message}. "
-        f"explode() is using the hardcoded constant ({MAX_EXPLOSIONS}) instead of config."
+        f"explode() is using the hardcoded constant "
+        f"({MAX_EXPLOSIONS}) instead of config."
     )
 
 
@@ -60,16 +61,17 @@ def test_explode_with_higher_config_allows_more_explosions():
     with pytest.raises(DiceExecutionError) as exc_high:
         roll("1d2!", rng=AlwaysMaxRNG(), config=config_high)
 
-    assert "5" in exc_low.value.message, (
-        f"Low config (5) not reflected in error: {exc_low.value.message}"
-    )
-    assert "10" in exc_high.value.message, (
-        f"High config (10) not reflected in error: {exc_high.value.message}"
-    )
+    assert (
+        "5" in exc_low.value.message
+    ), f"Low config (5) not reflected in error: {exc_low.value.message}"
+    assert (
+        "10" in exc_high.value.message
+    ), f"High config (10) not reflected in error: {exc_high.value.message}"
 
 
 def test_explode_within_custom_limit_succeeds():
     """Explosions within the custom limit should succeed, not use the constant."""
+
     # Use a sequence RNG: first roll is max (triggers explode), second is not
     class ExplodeOnceRNG:
         def __init__(self) -> None:

@@ -39,8 +39,7 @@ def test_concurrent_modifier_registration_does_not_corrupt():
             register_modifier(key, lambda r, s, rng, f, me=0: r)
 
     threads = [
-        threading.Thread(target=register_batch, args=(t,))
-        for t in range(num_threads)
+        threading.Thread(target=register_batch, args=(t,)) for t in range(num_threads)
     ]
     for t in threads:
         t.start()
@@ -105,8 +104,7 @@ def test_concurrent_evaluator_registration_does_not_corrupt():
             register_evaluator(key, StubEvaluator())
 
     threads = [
-        threading.Thread(target=register_batch, args=(t,))
-        for t in range(num_threads)
+        threading.Thread(target=register_batch, args=(t,)) for t in range(num_threads)
     ]
     for t in threads:
         t.start()

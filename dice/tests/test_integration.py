@@ -99,8 +99,16 @@ def test_reroll_plus_keep_ordering():
 
 def test_all_results_are_roll_result():
     expressions = [
-        "1d20", "2d20kh1+7", "4d6dl1", "2d6!", "1d20+5 [attack]",
-        "4dF+3", "d%", "(2d6+3)*2", "1d8+2d6+5", "4d6r<2kh3",
+        "1d20",
+        "2d20kh1+7",
+        "4d6dl1",
+        "2d6!",
+        "1d20+5 [attack]",
+        "4dF+3",
+        "d%",
+        "(2d6+3)*2",
+        "1d8+2d6+5",
+        "4d6r<2kh3",
     ]
     for expr in expressions:
         result = roll(expr, rng=SeededRNG(42))

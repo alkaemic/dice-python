@@ -72,11 +72,11 @@ def test_target_and_failure_total():
     term = DiceTerm(count=5, faces=10)
     term._has_target = True
     term.results = [
-        DieResult(value=8, matched=True),   # success
-        DieResult(value=3, failure=True),    # failure
-        DieResult(value=10, matched=True),   # success
-        DieResult(value=5),                   # neither
-        DieResult(value=1, failure=True),    # failure
+        DieResult(value=8, matched=True),  # success
+        DieResult(value=3, failure=True),  # failure
+        DieResult(value=10, matched=True),  # success
+        DieResult(value=5),  # neither
+        DieResult(value=1, failure=True),  # failure
     ]
     term._evaluated = True
     assert term.total == 0  # 2 successes - 2 failures

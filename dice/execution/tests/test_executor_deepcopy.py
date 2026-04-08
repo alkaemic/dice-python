@@ -92,9 +92,9 @@ def test_to_dict_produces_distinct_objects_complex():
     ids2 = {id(o) for o in objs2}
 
     shared = ids1 & ids2
-    assert not shared, (
-        f"to_dict() calls share {len(shared)} objects for complex expression"
-    )
+    assert (
+        not shared
+    ), f"to_dict() calls share {len(shared)} objects for complex expression"
 
 
 def test_to_dict_produces_distinct_objects_with_modifiers():
@@ -113,9 +113,9 @@ def test_to_dict_produces_distinct_objects_with_modifiers():
     ids2 = {id(o) for o in objs2}
 
     shared = ids1 & ids2
-    assert not shared, (
-        f"to_dict() calls share {len(shared)} objects for expression with modifiers"
-    )
+    assert (
+        not shared
+    ), f"to_dict() calls share {len(shared)} objects for expression with modifiers"
 
 
 def test_mutating_to_dict_result_does_not_affect_ast():
@@ -151,9 +151,9 @@ def test_deepcopy_of_to_dict_equals_plain_to_dict():
     plain = ast.to_dict()
     copied = copy.deepcopy(ast.to_dict())
 
-    assert plain == copied, (
-        "deepcopy(to_dict()) and to_dict() should be structurally identical"
-    )
+    assert (
+        plain == copied
+    ), "deepcopy(to_dict()) and to_dict() should be structurally identical"
 
 
 def test_deepcopy_is_slower_than_plain_to_dict():
@@ -166,9 +166,7 @@ def test_deepcopy_is_slower_than_plain_to_dict():
 
     iterations = 1000
     plain_time = timeit.timeit(lambda: ast.to_dict(), number=iterations)
-    copy_time = timeit.timeit(
-        lambda: copy.deepcopy(ast.to_dict()), number=iterations
-    )
+    copy_time = timeit.timeit(lambda: copy.deepcopy(ast.to_dict()), number=iterations)
 
     assert copy_time > plain_time, (
         f"Expected deepcopy ({copy_time:.4f}s) to be slower than plain "

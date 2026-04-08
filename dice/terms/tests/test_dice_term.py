@@ -175,9 +175,9 @@ def test_to_dict_includes_multiple_modifiers():
     dt.evaluate(rng)
     d = dt.to_dict()
 
-    assert "modifiers" in d, (
-        "to_dict() does not include a 'modifiers' key for chained modifiers"
-    )
+    assert (
+        "modifiers" in d
+    ), "to_dict() does not include a 'modifiers' key for chained modifiers"
     keys = [m["key"] for m in d["modifiers"]]
     assert "r" in keys, "Reroll modifier (r<2) missing from serialized output"
     assert "kh" in keys, "Keep-highest modifier missing from serialized output"
@@ -224,6 +224,6 @@ def test_to_dict_kh_vs_dl_distinguishable():
         "Cannot distinguish kh3 from dl1 in to_dict() output — "
         "both produce identical dice arrays with no modifier metadata"
     )
-    assert d_kh["modifiers"] != d_dl["modifiers"], (
-        "kh3 and dl1 should serialize to different modifier specs"
-    )
+    assert (
+        d_kh["modifiers"] != d_dl["modifiers"]
+    ), "kh3 and dl1 should serialize to different modifier specs"

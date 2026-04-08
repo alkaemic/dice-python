@@ -89,8 +89,7 @@ class DiceTerm(RollTerm):
         if self._evaluated:
             return self
         self.results = [
-            DieResult(value=self._roll_value(rng))
-            for _ in range(self.count)
+            DieResult(value=self._roll_value(rng)) for _ in range(self.count)
         ]
         if self.modifier_strings:
             from dice.modifiers.parser import parse_modifier_string
@@ -107,7 +106,9 @@ class DiceTerm(RollTerm):
         return self
 
     def to_dict(self) -> dict[str, Any]:
-        sides: int | str = self._notation_label if self._notation_label is not None else self.faces
+        sides: int | str = (
+            self._notation_label if self._notation_label is not None else self.faces
+        )
         d: dict[str, Any] = {
             "id": self.id,
             "kind": self.kind,

@@ -59,43 +59,39 @@ _keep_mod = Combine(
 )
 
 _drop_mod = Combine(
-    (CaselessLiteral("dh") | CaselessLiteral("dl"))
-    + Optional(Word(nums))
+    (CaselessLiteral("dh") | CaselessLiteral("dl")) + Optional(Word(nums))
 )
 
 _explode_mod = Combine(
-    (Literal("!!") | Literal("!p") | Literal("!"))
-    + Optional(_compare_point)
+    (Literal("!!") | Literal("!p") | Literal("!")) + Optional(_compare_point)
 )
 
 _reroll_mod = Combine(
-    (CaselessLiteral("ro") | CaselessLiteral("r"))
-    + Optional(_compare_point)
+    (CaselessLiteral("ro") | CaselessLiteral("r")) + Optional(_compare_point)
 )
 
 _critical_mod = Combine(
-    (CaselessLiteral("cs") | CaselessLiteral("cf"))
-    + Optional(_compare_point)
+    (CaselessLiteral("cs") | CaselessLiteral("cf")) + Optional(_compare_point)
 )
 
 _sort_mod = CaselessLiteral("sa") | CaselessLiteral("sd") | CaselessLiteral("s")
 
-_target_mod = Combine(
-    _compare_op + Word(nums)
-)
+_target_mod = Combine(_compare_op + Word(nums))
 
-_failure_mod = Combine(
-    CaselessLiteral("f") + _compare_point
-)
+_failure_mod = Combine(CaselessLiteral("f") + _compare_point)
 
-_clamp_mod = Combine(
-    (CaselessLiteral("min") | CaselessLiteral("max"))
-    + Word(nums)
-)
+_clamp_mod = Combine((CaselessLiteral("min") | CaselessLiteral("max")) + Word(nums))
 
 _modifier = (
-    _keep_mod | _drop_mod | _explode_mod | _reroll_mod
-    | _critical_mod | _sort_mod | _target_mod | _failure_mod | _clamp_mod
+    _keep_mod
+    | _drop_mod
+    | _explode_mod
+    | _reroll_mod
+    | _critical_mod
+    | _sort_mod
+    | _target_mod
+    | _failure_mod
+    | _clamp_mod
 ).set_name("modifier")
 
 # ---------------------------------------------------------------------------
@@ -104,18 +100,21 @@ _modifier = (
 
 _dice_count = Word(nums).set_results_name("count").set_name("dice_count")
 _dice_sides = (
-    CaselessLiteral("F")
-    | CaselessLiteral("fate")
-    | Literal("%")
-    | Word(nums)
-).set_results_name("sides").set_name("dice_sides")
+    (CaselessLiteral("F") | CaselessLiteral("fate") | Literal("%") | Word(nums))
+    .set_results_name("sides")
+    .set_name("dice_sides")
+)
 
-_dice_expr = Group(
-    Optional(_dice_count)
-    + Suppress(CaselessLiteral("d"))
-    + _dice_sides
-    + Group(ZeroOrMore(_modifier)).set_results_name("modifiers")
-).set_parse_action(make_dice_term).set_name("dice_expr")
+_dice_expr = (
+    Group(
+        Optional(_dice_count)
+        + Suppress(CaselessLiteral("d"))
+        + _dice_sides
+        + Group(ZeroOrMore(_modifier)).set_results_name("modifiers")
+    )
+    .set_parse_action(make_dice_term)
+    .set_name("dice_expr")
+)
 
 # ---------------------------------------------------------------------------
 # Forward-declare expression for recursive grammar
@@ -129,9 +128,11 @@ _expression = Forward().set_name("expression")
 
 _lparen = Suppress(Literal("("))
 _rparen = Suppress(Literal(")"))
-_parenthetical = Group(
-    _lparen + _expression + _rparen
-).set_parse_action(make_parenthetical).set_name("parenthetical")
+_parenthetical = (
+    Group(_lparen + _expression + _rparen)
+    .set_parse_action(make_parenthetical)
+    .set_name("parenthetical")
+)
 
 # ---------------------------------------------------------------------------
 # Function call:  floor(...) | ceil(...) | round(...) | abs(...)
@@ -144,9 +145,11 @@ _func_name = (
     | CaselessKeyword("abs")
 )
 
-_function_call = Group(
-    _func_name + _lparen + _expression + _rparen
-).set_parse_action(make_function).set_name("function_call")
+_function_call = (
+    Group(_func_name + _lparen + _expression + _rparen)
+    .set_parse_action(make_function)
+    .set_name("function_call")
+)
 
 # ---------------------------------------------------------------------------
 # Factor (atom):  dice | function | parenthetical | number
@@ -159,10 +162,10 @@ _factor = (_dice_expr | _function_call | _parenthetical | _number).set_name("fac
 # ---------------------------------------------------------------------------
 
 _flavor = (
-    Suppress(Literal("["))
-    + Regex(r"[^\]]*")
-    + Suppress(Literal("]"))
-).set_results_name("flavor").set_name("flavor_text")
+    (Suppress(Literal("[")) + Regex(r"[^\]]*") + Suppress(Literal("]")))
+    .set_results_name("flavor")
+    .set_name("flavor_text")
+)
 
 # ---------------------------------------------------------------------------
 # Full expression with operator precedence via infixNotation

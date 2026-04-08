@@ -7,6 +7,7 @@ _ctx = DiceContext.standard
 
 # --- min ---
 
+
 def test_clamp_min_raises_low_values():
     """min2 should raise any value below 2 up to 2."""
     results = [DieResult(value=1), DieResult(value=3), DieResult(value=2)]
@@ -41,6 +42,7 @@ def test_clamp_min_all_ones():
 
 # --- max ---
 
+
 def test_clamp_max_lowers_high_values():
     """max4 should lower any value above 4 down to 4."""
     results = [DieResult(value=6), DieResult(value=3), DieResult(value=5)]
@@ -66,6 +68,7 @@ def test_clamp_max_equal_to_threshold():
 
 
 # --- edge cases ---
+
 
 def test_clamp_preserves_die_flags():
     """Clamping should not alter kept/exploded/rerolled flags."""

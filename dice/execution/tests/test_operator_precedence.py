@@ -65,17 +65,13 @@ def test_precedence_total_sub_then_mul():
 def test_precedence_total_mul_then_add():
     """2*3+4 should be (2*3)+4=10, not 2*(3+4)=14."""
     result = roll("2*3+4")
-    assert result.total == 10, (
-        f"Expected 2*3+4=10, got {result.total}"
-    )
+    assert result.total == 10, f"Expected 2*3+4=10, got {result.total}"
 
 
 def test_precedence_total_division():
     """10+6/2 should be 10+(6/2)=13, not (10+6)/2=8."""
     result = roll("10+6/2")
-    assert result.total == 13, (
-        f"Expected 10+6/2=13, got {result.total}"
-    )
+    assert result.total == 13, f"Expected 10+6/2=13, got {result.total}"
 
 
 def test_precedence_mixed_mul_div_with_dice():
@@ -94,9 +90,7 @@ def test_precedence_mixed_mul_div_with_dice():
 def test_precedence_pure_arithmetic():
     """Pure arithmetic: 2+3*4-1 should be 2+(3*4)-1=13."""
     result = roll("2+3*4-1")
-    assert result.total == 13, (
-        f"Expected 2+3*4-1=13, got {result.total}"
-    )
+    assert result.total == 13, f"Expected 2+3*4-1=13, got {result.total}"
 
 
 def test_explicit_parens_still_work():

@@ -29,7 +29,8 @@ def penetrate(
     """
     explosions = 0
     new_dice = [
-        r for r in results
+        r
+        for r in results
         if matches_compare_point(r.value, spec.compare_point, ctx.max_value)
     ]
     while new_dice:

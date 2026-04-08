@@ -9,13 +9,15 @@ _ctx = DiceContext.standard
 def test_failure_marks_matching_dice():
     """f<3 should mark dice with value < 3 as failures."""
     results = [
-        DieResult(value=1), DieResult(value=5), DieResult(value=2),
+        DieResult(value=1),
+        DieResult(value=5),
+        DieResult(value=2),
     ]
     rng = SeededRNG(0)
     out = failure(results, ModifierSpec(key="f", compare_point="<3"), rng, ctx=_ctx(10))
-    assert out[0].failure is True   # 1 < 3 => failure
+    assert out[0].failure is True  # 1 < 3 => failure
     assert out[1].failure is False  # 5 not < 3
-    assert out[2].failure is True   # 2 < 3 => failure
+    assert out[2].failure is True  # 2 < 3 => failure
 
 
 def test_failure_uses_failure_field():

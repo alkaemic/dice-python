@@ -21,7 +21,6 @@ from dice.modifiers.reroll import reroll
 from dice.rng import SeededRNG
 from dice.terms.die_result import DieResult
 
-
 _ctx = DiceContext.standard(6)
 
 

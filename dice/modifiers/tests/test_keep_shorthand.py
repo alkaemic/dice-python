@@ -86,9 +86,7 @@ def test_bare_k_keeps_correct_number():
     result = roll("4d6k3", rng=SeededRNG(42))
     dice = result.tree["children"][0]["dice"]
     kept = [d for d in dice if d["kept"]]
-    assert len(kept) == 3, (
-        f"Expected 3 kept dice for 4d6k3, got {len(kept)}."
-    )
+    assert len(kept) == 3, f"Expected 3 kept dice for 4d6k3, got {len(kept)}."
 
 
 def test_bare_k_default_keeps_one():

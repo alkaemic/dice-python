@@ -47,9 +47,9 @@ def test_evaluate_tree_group_term_computes_total():
     ctx = _EvalContext(rng=SeededRNG(0), config=ExecutionConfig())
     evaluate_tree(group, ctx)
 
-    assert group.total == 20, (
-        f"Expected kh1 to keep the higher sub-expression (20), got {group.total}"
-    )
+    assert (
+        group.total == 20
+    ), f"Expected kh1 to keep the higher sub-expression (20), got {group.total}"
 
 
 def test_evaluate_tree_group_term_nested_in_expression():
@@ -66,9 +66,7 @@ def test_evaluate_tree_group_term_nested_in_expression():
     ctx = _EvalContext(rng=SeededRNG(0), config=ExecutionConfig())
     evaluate_tree(root, ctx)
 
-    assert root.total == 17, (
-        f"Expected {'{'}5, 15{'}'}kh1+2 = 17, got {root.total}"
-    )
+    assert root.total == 17, f"Expected {'{'}5, 15{'}'}kh1+2 = 17, got {root.total}"
 
 
 def test_evaluate_tree_group_term_with_dice():

@@ -11,6 +11,7 @@ _ctx = DiceContext.standard
 
 # --- critical success ---
 
+
 def test_cs_default_marks_max_value():
     """cs without compare point marks dice equal to faces as critical success."""
     results = [DieResult(value=20), DieResult(value=15), DieResult(value=1)]
@@ -43,6 +44,7 @@ def test_cs_no_matches():
 
 # --- critical failure ---
 
+
 def test_cf_default_marks_value_1():
     """cf without compare point marks dice equal to 1 as critical failure."""
     results = [DieResult(value=1), DieResult(value=10), DieResult(value=20)]
@@ -74,6 +76,7 @@ def test_cf_no_matches():
 
 
 # --- edge cases ---
+
 
 def test_cs_and_cf_together():
     """cs and cf can both apply to a single roll without conflict."""

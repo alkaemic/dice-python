@@ -23,9 +23,9 @@ def test_expression_at_limit_parses_successfully():
     # Solve: 2n = 500 → n = 250.
     n = MAX_EXPRESSION_LENGTH // 2
     expr = "10" + "+1" * (n - 1)
-    assert len(expr) == MAX_EXPRESSION_LENGTH, (
-        f"Test setup: expected {MAX_EXPRESSION_LENGTH} chars, got {len(expr)}"
-    )
+    assert (
+        len(expr) == MAX_EXPRESSION_LENGTH
+    ), f"Test setup: expected {MAX_EXPRESSION_LENGTH} chars, got {len(expr)}"
 
     result = parse(expr)
     assert not result.errors, (
@@ -53,9 +53,9 @@ def test_expression_exceeding_limit_error_type():
     assert len(expr) > MAX_EXPRESSION_LENGTH
 
     result = parse(expr)
-    assert len(result.errors) > 0, (
-        "Expected an error for over-length expression, got none."
-    )
+    assert (
+        len(result.errors) > 0
+    ), "Expected an error for over-length expression, got none."
     assert isinstance(result.errors[0], DiceParseError)
 
 
@@ -63,12 +63,11 @@ def test_expression_exceeding_limit_error_code():
     """The error code should clearly indicate the expression was too long."""
     expr = "1+" * MAX_EXPRESSION_LENGTH + "1"
     result = parse(expr)
-    assert len(result.errors) > 0, (
-        "Expected an error for over-length expression, got none."
-    )
+    assert (
+        len(result.errors) > 0
+    ), "Expected an error for over-length expression, got none."
     assert result.errors[0].code == "EXPRESSION_TOO_LONG", (
-        f"Expected error code 'EXPRESSION_TOO_LONG', "
-        f"got {result.errors[0].code!r}"
+        f"Expected error code 'EXPRESSION_TOO_LONG', " f"got {result.errors[0].code!r}"
     )
 
 
@@ -78,9 +77,9 @@ def test_expression_exceeding_limit_preserves_original_expression():
     assert len(expr) > MAX_EXPRESSION_LENGTH
 
     result = parse(expr)
-    assert len(result.errors) > 0, (
-        "Expected an error for over-length expression, got none."
-    )
+    assert (
+        len(result.errors) > 0
+    ), "Expected an error for over-length expression, got none."
     assert result.expression == expr
 
 

@@ -79,8 +79,6 @@ def test_custom_evaluator_no_crit():
             {"kind": "numeric_term", "value": 5},
         ],
     }
-    result = evaluate(
-        tree, system="test_crit2", context={"target_dc": 15}
-    )
+    result = evaluate(tree, system="test_crit2", context={"target_dc": 15})
     assert result["outcome"] == "failure"
     assert result["mechanic_critical_state"] is None

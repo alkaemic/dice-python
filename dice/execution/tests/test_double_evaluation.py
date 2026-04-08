@@ -107,9 +107,9 @@ def test_multiple_dice_terms_each_rolled_once():
     ctx = _EvalContext(rng=rng, config=ExecutionConfig())
     evaluate_tree(parsed.ast, ctx)
 
-    assert rng.call_count == 5, (
-        f"Expected 5 randint calls for 2d6+3d8, got {rng.call_count}."
-    )
+    assert (
+        rng.call_count == 5
+    ), f"Expected 5 randint calls for 2d6+3d8, got {rng.call_count}."
 
 
 def test_function_wrapping_does_not_cause_extra_rolls():
@@ -121,9 +121,9 @@ def test_function_wrapping_does_not_cause_extra_rolls():
     ctx = _EvalContext(rng=rng, config=ExecutionConfig())
     evaluate_tree(parsed.ast, ctx)
 
-    assert rng.call_count == 2, (
-        f"Expected 2 randint calls for floor(2d6+1), got {rng.call_count}."
-    )
+    assert (
+        rng.call_count == 2
+    ), f"Expected 2 randint calls for floor(2d6+1), got {rng.call_count}."
 
 
 # ---------------------------------------------------------------------------
@@ -190,12 +190,8 @@ def test_fixed_rng_exhaustion_detects_extra_rolls():
     evaluate_tree(parsed.ast, ctx)
 
     # Verify all values were consumed exactly once
-    assert rng._index == 3, (
-        f"Expected exactly 3 values consumed, got {rng._index}."
-    )
-    assert rng.call_count == 3, (
-        f"Expected 3 randint calls, got {rng.call_count}."
-    )
+    assert rng._index == 3, f"Expected exactly 3 values consumed, got {rng._index}."
+    assert rng.call_count == 3, f"Expected 3 randint calls, got {rng.call_count}."
 
 
 # ---------------------------------------------------------------------------

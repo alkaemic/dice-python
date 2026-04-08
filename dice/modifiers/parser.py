@@ -7,14 +7,28 @@ from dice.modifiers.base import ModifierSpec
 # Ordered longest-first so greedy matching works correctly.
 # Keys that are prefixes of longer keys must come after them.
 _MODIFIER_KEYS = [
-    "min", "max",
-    "!!", "!p", "!",
-    "ro", "r",
-    "kh", "kl", "k",
-    "dh", "dl",
-    ">=", "<=", ">", "<", "=",
-    "cs", "cf",
-    "sa", "sd", "s",
+    "min",
+    "max",
+    "!!",
+    "!p",
+    "!",
+    "ro",
+    "r",
+    "kh",
+    "kl",
+    "k",
+    "dh",
+    "dl",
+    ">=",
+    "<=",
+    ">",
+    "<",
+    "=",
+    "cs",
+    "cf",
+    "sa",
+    "sd",
+    "s",
     "f",
 ]
 
@@ -23,9 +37,9 @@ _MODIFIER_KEYS = [
 # number: \d+
 _KEY_PATTERN = "|".join(re.escape(k) for k in _MODIFIER_KEYS)
 _TOKEN_RE = re.compile(
-    rf"({_KEY_PATTERN})"          # group 1: modifier key
-    rf"((?:>=|<=|>|<|=)\d+)?"     # group 2: optional compare point
-    rf"(\d+)?"                     # group 3: optional bare number argument
+    rf"({_KEY_PATTERN})"  # group 1: modifier key
+    rf"((?:>=|<=|>|<|=)\d+)?"  # group 2: optional compare point
+    rf"(\d+)?"  # group 3: optional bare number argument
 )
 
 

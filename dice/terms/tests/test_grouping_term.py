@@ -12,7 +12,6 @@ from dice.terms.grouping_term import GroupingTerm
 from dice.terms.numeric_term import NumericTerm
 from dice.terms.operator_term import OperatorTerm
 
-
 # ---- Unit tests ----
 
 

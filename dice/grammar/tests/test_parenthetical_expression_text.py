@@ -36,17 +36,13 @@ def test_parenthetical_expression_not_placeholder():
 def test_parenthetical_expression_contains_dice():
     """The expression field for (2d6+3) should reference '2d6'."""
     expr = _get_parenthetical_expression("(2d6+3)")
-    assert "2d6" in expr, (
-        f"Expected '2d6' in expression, got {expr!r}."
-    )
+    assert "2d6" in expr, f"Expected '2d6' in expression, got {expr!r}."
 
 
 def test_parenthetical_expression_contains_operator():
     """The expression field for (2d6+3) should contain the '+' operator."""
     expr = _get_parenthetical_expression("(2d6+3)")
-    assert "+" in expr, (
-        f"Expected '+' in expression, got {expr!r}."
-    )
+    assert "+" in expr, f"Expected '+' in expression, got {expr!r}."
 
 
 def test_different_parentheticals_have_different_expressions():

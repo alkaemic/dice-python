@@ -7,14 +7,15 @@ _ctx = DiceContext.standard
 
 # --- basic target matching ---
 
+
 def test_target_greater_than():
     """>7 should mark dice with value > 7 as matched."""
     results = [DieResult(value=8), DieResult(value=7), DieResult(value=10)]
     rng = SeededRNG(0)
     out = target(results, ModifierSpec(key=">", compare_point=">7"), rng, ctx=_ctx(10))
-    assert out[0].matched is True   # 8 > 7
+    assert out[0].matched is True  # 8 > 7
     assert out[1].matched is False  # 7 is not > 7
-    assert out[2].matched is True   # 10 > 7
+    assert out[2].matched is True  # 10 > 7
 
 
 def test_target_less_than():
@@ -22,9 +23,9 @@ def test_target_less_than():
     results = [DieResult(value=1), DieResult(value=3), DieResult(value=2)]
     rng = SeededRNG(0)
     out = target(results, ModifierSpec(key="<", compare_point="<3"), rng, ctx=_ctx(6))
-    assert out[0].matched is True   # 1 < 3
+    assert out[0].matched is True  # 1 < 3
     assert out[1].matched is False  # 3 is not < 3
-    assert out[2].matched is True   # 2 < 3
+    assert out[2].matched is True  # 2 < 3
 
 
 def test_target_equal():
@@ -55,13 +56,14 @@ def test_target_all_match():
 
 # --- edge cases ---
 
+
 def test_target_skips_unkept_dice():
     """Unkept dice (e.g., dropped) should not be marked as matched."""
     results = [DieResult(value=10, kept=False), DieResult(value=10, kept=True)]
     rng = SeededRNG(0)
     out = target(results, ModifierSpec(key=">", compare_point=">7"), rng, ctx=_ctx(10))
     assert out[0].matched is False  # unkept
-    assert out[1].matched is True   # kept
+    assert out[1].matched is True  # kept
 
 
 def test_target_preserves_other_flags():

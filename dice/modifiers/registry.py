@@ -11,15 +11,29 @@ from dice.terms.die_result import DieResult
 # Fixed execution order — modifiers are applied in this order regardless
 # of the order they appear in the notation.
 MODIFIER_ORDER: list[str] = [
-    "min", "max",           # 1-2: clamp
-    "!", "!!", "!p",        # 3: explode/compound/penetrate
-    "r", "ro",              # 4: reroll
-    "k", "kh", "kl",        # 5: keep
-    "dh", "dl",             # 6: drop
-    ">", "<", "=", ">=", "<=",  # 7: target/success
-    "f",                    # 8: failure
-    "cs", "cf",             # 9: critical marking
-    "s", "sa", "sd",        # 10: sort
+    "min",
+    "max",  # 1-2: clamp
+    "!",
+    "!!",
+    "!p",  # 3: explode/compound/penetrate
+    "r",
+    "ro",  # 4: reroll
+    "k",
+    "kh",
+    "kl",  # 5: keep
+    "dh",
+    "dl",  # 6: drop
+    ">",
+    "<",
+    "=",
+    ">=",
+    "<=",  # 7: target/success
+    "f",  # 8: failure
+    "cs",
+    "cf",  # 9: critical marking
+    "s",
+    "sa",
+    "sd",  # 10: sort
 ]
 
 _MODIFIER_REGISTRY: dict[str, ModifierFn] = {}

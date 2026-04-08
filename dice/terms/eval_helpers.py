@@ -15,8 +15,7 @@ def compute_infix_total(children: list[RollTerm]) -> int | float:
         op = children[i]
         if not isinstance(op, OperatorTerm):
             raise TypeError(
-                f"Expected OperatorTerm at index {i}, "
-                f"got {type(op).__name__}"
+                f"Expected OperatorTerm at index {i}, " f"got {type(op).__name__}"
             )
         right = children[i + 1]
         if op.operator == "+":

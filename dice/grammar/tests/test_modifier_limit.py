@@ -43,9 +43,7 @@ def test_five_modifiers_parse():
         f"5 modifiers caused a parse error: {result.errors[0]}. "
         f"The grammar caps modifiers at 4 due to nested Optional()."
     )
-    assert result.ast.children[0].modifier_strings == [
-        "r=1", "kh3", "!", "dh1", "dl1"
-    ]
+    assert result.ast.children[0].modifier_strings == ["r=1", "kh3", "!", "dh1", "dl1"]
 
 
 def test_six_modifiers_parse():

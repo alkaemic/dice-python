@@ -30,9 +30,7 @@ class GroupTerm(RollTerm):
 
     @property
     def total(self) -> int | float:
-        return sum(
-            t for t, k in zip(self._child_totals, self._kept) if k
-        )
+        return sum(t for t, k in zip(self._child_totals, self._kept) if k)
 
     def evaluate(self, rng: RNG) -> GroupTerm:
         if self._evaluated:

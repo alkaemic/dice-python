@@ -33,8 +33,10 @@ def test_apply_modifiers_sorts_by_order():
     """Verify that apply_modifiers applies reroll before keep."""
     rng = SeededRNG(42)
     results = [
-        DieResult(value=1), DieResult(value=5),
-        DieResult(value=3), DieResult(value=6),
+        DieResult(value=1),
+        DieResult(value=5),
+        DieResult(value=3),
+        DieResult(value=6),
     ]
     specs = [
         ModifierSpec(key="kh", argument=3),

@@ -19,13 +19,12 @@ The tests verify:
 
 from dice import roll
 from dice.grammar import parse
+from dice.modifiers.base import DiceContext, ModifierSpec
 from dice.modifiers.parser import parse_modifier_string
 from dice.modifiers.registry import MODIFIER_ORDER, get_modifier
 from dice.modifiers.target import TARGET_MODIFIERS, target
-from dice.modifiers.base import DiceContext, ModifierSpec
 from dice.rng import SeededRNG
 from dice.terms.die_result import DieResult
-
 
 # ---- Grammar: parses >= and <= as target modifiers ----
 

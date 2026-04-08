@@ -20,7 +20,9 @@ def test_type_error_propagates():
     """A TypeError from a bug in parse_notation should propagate to the caller."""
     with patch(
         "dice.grammar.notation.parse_notation",
-        side_effect=TypeError("unsupported operand type(s) for +: 'NoneType' and 'int'"),
+        side_effect=TypeError(
+            "unsupported operand type(s) for +: 'NoneType' and 'int'"
+        ),
     ):
         with pytest.raises(TypeError, match="NoneType"):
             parse("1d6")

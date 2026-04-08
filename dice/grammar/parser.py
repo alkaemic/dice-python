@@ -32,7 +32,10 @@ def parse(expression: str) -> ParseResult:
     if len(text) > MAX_EXPRESSION_LENGTH:
         error = DiceParseError(
             code="EXPRESSION_TOO_LONG",
-            message=f"Expression length ({len(text)}) exceeds maximum ({MAX_EXPRESSION_LENGTH})",
+            message=(
+                f"Expression length ({len(text)}) "
+                f"exceeds maximum ({MAX_EXPRESSION_LENGTH})"
+            ),
             expression=expression,
         )
         dummy = RollExpression(expression=expression, children=[], label=None)

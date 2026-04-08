@@ -24,6 +24,7 @@ from dice.terms import (  # noqa: E402
     DieResult,
     FunctionTerm,
     GroupTerm,
+    GroupingTerm,
     NumericTerm,
     OperatorTerm,
     ParentheticalTerm,
@@ -64,6 +65,7 @@ __all__ = [
     "OperatorTerm",
     "ParentheticalTerm",
     "GroupTerm",
+    "GroupingTerm",
     "FunctionTerm",
     "DieResult",
     # Constants

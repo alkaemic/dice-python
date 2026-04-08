@@ -5,9 +5,9 @@ def test_parse_parenthetical_multiply():
     r = parse("(2d6+3)*2")
     assert len(r.errors) == 0
     children = r.ast.children
-    # Mul/div is wrapped in a ParentheticalTerm for precedence
+    # Mul/div is wrapped in a GroupingTerm for precedence
     mul_group = children[0]
-    assert mul_group.kind == "parenthetical_term"
+    assert mul_group.kind == "grouping_term"
     assert mul_group.children[0].kind == "parenthetical_term"  # (2d6+3)
     assert mul_group.children[1].kind == "operator_term"
     assert mul_group.children[1].operator == "*"
@@ -28,7 +28,7 @@ def test_parse_parenthetical_inner_children():
     assert len(r.errors) == 0
     # Top level is the mul/div grouping
     mul_group = r.ast.children[0]
-    assert mul_group.kind == "parenthetical_term"
+    assert mul_group.kind == "grouping_term"
     assert len(mul_group.children) == 3
     # The explicit parens are the first child of the mul group
     paren = mul_group.children[0]

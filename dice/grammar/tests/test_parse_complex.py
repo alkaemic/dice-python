@@ -29,8 +29,8 @@ def test_parse_parenthetical_complex():
     r = parse("(1d8+3)*2-1d4")
     assert len(r.errors) == 0
     children = r.ast.children
-    # Should be: parenthetical, *, 2, -, 1d4
-    assert children[0].kind == "parenthetical_term"
+    # Should be: grouping(paren, *, 2), -, 1d4
+    assert children[0].kind == "grouping_term"
 
 
 def test_parse_function_in_expression():

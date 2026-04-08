@@ -6,9 +6,9 @@ def test_execute_parenthetical():
     result = roll("(2d6+3)*2", rng=SeededRNG(42))
     tree = result.tree
     assert tree["kind"] == "roll_expression"
-    # The mul/div level wraps into a ParentheticalTerm for precedence
+    # The mul/div level wraps into a GroupingTerm for precedence
     mul_group = tree["children"][0]
-    assert mul_group["kind"] == "parenthetical_term"
+    assert mul_group["kind"] == "grouping_term"
     # Inside: [(2d6+3), *, 2]
     assert mul_group["children"][0]["kind"] == "parenthetical_term"
     assert mul_group["children"][1]["kind"] == "operator_term"

@@ -54,8 +54,8 @@ def test_parse_precedence():
     assert children[0].kind == "dice_term"
     assert children[1].kind == "operator_term"
     assert children[1].operator == "+"
-    # The multiplication is grouped into a ParentheticalTerm
-    assert children[2].kind == "parenthetical_term"
+    # The multiplication is grouped into a GroupingTerm for precedence
+    assert children[2].kind == "grouping_term"
     assert len(children[2].children) == 3
     assert children[2].children[1].operator == "*"
 

@@ -104,12 +104,12 @@ def test_explicit_parens_still_work():
     (1d20+3)*2 should compute (1d20+3)*2."""
     result = roll("(1d20+3)*2", rng=SeededRNG(42))
 
-    # The top-level is a mul/div ParentheticalTerm wrapping
+    # The top-level is a mul/div GroupingTerm wrapping
     # [(1d20+3), *, 2]. Find the d20 inside the explicit parens.
     tree = result.tree
     # Navigate to the inner parenthetical that contains the d20
     mul_group = tree["children"][0]
-    assert mul_group["kind"] == "parenthetical_term"
+    assert mul_group["kind"] == "grouping_term"
     explicit_paren = mul_group["children"][0]
     assert explicit_paren["kind"] == "parenthetical_term"
     d20_total = explicit_paren["children"][0]["total"]

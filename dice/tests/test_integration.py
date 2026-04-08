@@ -74,8 +74,8 @@ def test_percentile():
 def test_parenthetical():
     result = roll("(2d6+3)*2", rng=SeededRNG(42))
     _assert_valid_tree(result.tree)
-    paren = result.tree["children"][0]
-    assert paren["kind"] == "parenthetical_term"
+    mul_group = result.tree["children"][0]
+    assert mul_group["kind"] == "grouping_term"
 
 
 def test_multi_term():

@@ -11,6 +11,7 @@ from dice.terms import (
     ParentheticalTerm,
     RollTerm,
 )
+from dice.terms.grouping_term import GroupingTerm
 
 
 def make_integer(string: str, location: int, tokens: Any) -> NumericTerm:
@@ -94,7 +95,7 @@ def make_add_sub(string: str, location: int, tokens: Any) -> Any:
     return _flatten_infix(tokens)
 
 
-def make_mul_div(string: str, location: int, tokens: Any) -> ParentheticalTerm:
+def make_mul_div(string: str, location: int, tokens: Any) -> GroupingTerm:
     items = tokens[0]
     children: list[RollTerm] = []
     for item in items:
@@ -102,4 +103,4 @@ def make_mul_div(string: str, location: int, tokens: Any) -> ParentheticalTerm:
             children.append(OperatorTerm(operator=item))
         elif isinstance(item, RollTerm):
             children.append(item)
-    return ParentheticalTerm(expression="", children=children)
+    return GroupingTerm(children=children)
